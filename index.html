@@ -4,1066 +4,992 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#142943">
+<meta name="theme-color" content="#17243a">
 <title>Маленькое новогоднее чудо</title>
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Marck+Script&family=PT+Serif:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
 
 :root {
-  --gold:#f5d28b;
-  --cream:#fff8e9;
-  --ink:#28364a;
+  --gold: #e8c98d;
+  --cream: #fff8ed;
+  --ink: #263044;
 }
-* {box-sizing:border-box}
-body {
-  margin:0;
-  min-height:100vh;
-  min-height:100svh;
-  font-family:'PT Serif',serif;
-  color:var(--cream);
-  background:#142943;
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--cream);
+  background: #17243a;
 }
-button,input,textarea {font:inherit}
+
+body { overflow-x: hidden; }
+
 #app {
-  min-height:100vh;
-  min-height:100svh;
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  background-size:cover;
-  background-position:center;
-  transition:background-image .5s ease;
-  overflow:hidden;
+  min-height: 100svh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  isolation: isolate;
+  transition: background-image .5s ease;
 }
-#app:before {
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg,rgba(7,20,39,.12),rgba(7,20,39,.34));
-  pointer-events:none;
+
+#app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 23, 43, .12),
+    rgba(12, 23, 43, .35)
+  );
+  pointer-events: none;
 }
-.top {
-  position:relative;
-  z-index:2;
-  padding:12px 18px 4px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size:12px;
-  color:#fff3d7;
-  text-shadow:0 1px 5px #142943;
+
+.top-space {
+  flex: 1 0 12px;
+  min-height: 14px;
 }
-.progress {
-  height:4px;
-  background:rgba(255,255,255,.25);
-  border-radius:10px;
-  overflow:hidden;
-  margin:7px 18px 0;
+
+.main {
+  width: min(92%, 680px);
+  margin: 0 auto;
+  padding: 20px 0 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.progress span {
-  display:block;
-  height:100%;
-  background:var(--gold);
-  transition:width .3s;
-}
-main {
-  position:relative;
-  z-index:1;
-  width:100%;
-  max-width:650px;
-  margin:auto;
-  padding:18px 16px 12px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  flex:1;
-}
+
 .panel {
-  background:rgba(17,34,54,.73);
-  border:1px solid rgba(255,224,164,.42);
-  border-radius:22px;
-  padding:22px 20px;
-  box-shadow:0 12px 35px rgba(0,0,0,.22);
-  backdrop-filter:blur(5px);
-  -webkit-backdrop-filter:blur(5px);
-  max-height:70vh;
-  overflow-y:auto;
+  width: 100%;
+  padding: 22px 20px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 22px;
+  background: rgba(17, 29, 48, .70);
+  box-shadow: 0 12px 40px rgba(0,0,0,.18);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
-h1,h2,h3,p {margin-top:0}
+
+.cover-panel {
+  background: rgba(17, 29, 48, .40);
+  text-align: center;
+  padding: 24px 18px;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+h1, h2, h3, .story-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  line-height: 1.08;
+  margin: 0;
+  text-align: center;
+}
+
 h1 {
-  font-family:'Marck Script',cursive;
-  font-size:clamp(40px,10vw,66px);
-  line-height:1.05;
-  font-weight:400;
-  color:#ffe2a0;
-  text-align:center;
-  margin-bottom:12px;
-  text-shadow:0 2px 15px rgba(0,0,0,.4);
+  font-size: clamp(42px, 11vw, 68px);
+  color: #fff5e6;
+  text-shadow: 0 3px 20px rgba(0,0,0,.25);
 }
+
 h2 {
-  font-family:'Marck Script',cursive;
-  color:#ffe1a1;
-  font-size:36px;
-  line-height:1.12;
-  font-weight:400;
-  text-align:center;
-  margin-bottom:16px;
+  font-size: clamp(34px, 8vw, 48px);
+  color: #fff3df;
+  margin-bottom: 15px;
 }
+
 h3 {
-  color:#ffe1a1;
-  font-size:18px;
-  text-align:center;
+  font-size: 29px;
+  color: #f8dfb6;
+  margin-bottom: 10px;
 }
-p {
-  font-size:16px;
-  line-height:1.72;
-  margin-bottom:13px;
-}
-.story {
-  white-space:pre-line;
-}
-.small {
-  font-size:14px;
-  color:#f5e5c7;
-  text-align:center;
-}
-.center {text-align:center}
-.gold {color:#ffe0a0}
-.girl {
-  display:block;
-  width:min(54%,230px);
-  max-height:240px;
-  object-fit:contain;
-  margin:0 auto 12px;
-  filter:drop-shadow(0 8px 15px rgba(0,0,0,.25));
-}
-.scene-image {
-  display:block;
-  width:min(75%,290px);
-  max-height:230px;
-  object-fit:contain;
-  margin:10px auto 16px;
-  filter:drop-shadow(0 8px 16px rgba(0,0,0,.3));
-}
-button {
-  border:1px solid #ffe1a0;
-  background:linear-gradient(135deg,#f8d58e,#d89b48);
-  color:#49321c;
-  border-radius:30px;
-  padding:13px 23px;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:0 5px 16px rgba(0,0,0,.22);
-  transition:transform .15s,filter .15s;
-}
-button:active {transform:scale(.97)}
-.primary {
-  display:block;
-  width:100%;
-  max-width:340px;
-  margin:18px auto 0;
-  font-size:16px;
-}
-.choice {
-  display:block;
-  width:100%;
-  margin:9px 0;
-  background:rgba(255,248,233,.12);
-  border:1px solid rgba(255,224,164,.65);
-  color:#fff8e9;
-  text-align:left;
-  box-shadow:none;
-  border-radius:14px;
-  padding:13px 15px;
-  font-weight:400;
-}
-.choice:active,.choice:hover {
-  background:rgba(255,224,164,.24);
-}
-input,textarea {
-  display:block;
-  width:100%;
-  padding:13px 14px;
-  border:1px solid #e9c98d;
-  background:rgba(255,255,255,.94);
-  color:#28364a;
-  border-radius:12px;
-  margin:12px 0;
-  outline:none;
-}
-textarea {min-height:90px;resize:vertical}
-.card-grid {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
-  margin-top:12px;
-}
-.card-option {
-  padding:7px;
-  border-radius:14px;
-  background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,224,164,.5);
-  color:#fff8e9;
-  text-align:center;
-  font-size:13px;
-}
-.card-option img {
-  display:block;
-  width:100%;
-  aspect-ratio:3/4;
-  object-fit:cover;
-  border-radius:9px;
-  margin-bottom:7px;
-}
-.footer {
-  position:relative;
-  z-index:2;
-  text-align:center;
-  padding:10px 8px 13px;
-  color:#ffedcc;
-  font-size:12px;
-  text-shadow:0 1px 5px #142943;
-}
-.cover {
-  background-image:linear-gradient(rgba(8,23,42,.1),rgba(8,23,42,.25)),url('village.JPG');
-}
-.cover main {max-width:600px;text-align:center}
-.cover .panel {
-  background:rgba(12,29,48,.43);
-  border-color:rgba(255,224,164,.25);
-  padding:18px 16px;
-}
-.cover .girl {
-  width:min(60%,260px);
-  max-height:260px;
-  margin:8px auto;
-}
-.cover-label {
-  font-size:17px;
-  letter-spacing:1px;
-  color:#fff0d0;
-  text-align:center;
-  margin-bottom:10px;
-}
+
 .subtitle {
-  font-size:16px;
-  line-height:1.55;
-  text-align:center;
-  color:#fff1d7;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 25px;
+  color: #f3dfc0;
+  text-align: center;
+  margin: 14px 0 20px;
 }
-.author {
-  text-align:center;
-  font-size:14px;
-  line-height:1.6;
-  color:#ffe4b0;
-  margin-top:16px;
+
+p {
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 0 0 13px;
+  color: #fff8ee;
 }
-.gift-wrap {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:160px;
+
+p:last-child { margin-bottom: 0; }
+
+.story {
+  font-size: 14px;
+  line-height: 1.8;
 }
-.gift-wrap img {
-  max-width:75%;
-  max-height:210px;
-  object-fit:contain;
-  filter:drop-shadow(0 8px 14px rgba(0,0,0,.3));
+
+.story p { margin-bottom: 14px; }
+
+.gold {
+  color: #f2d49e;
+  font-weight: 600;
 }
-@media(max-height:700px) {
-  main {padding-top:8px;padding-bottom:8px}
-  .panel {padding:16px;max-height:67vh}
-  p {font-size:15px;line-height:1.55;margin-bottom:9px}
-  .girl {max-height:170px}
-  .cover .girl {max-height:190px}
+
+.center { text-align: center; }
+
+.small-note {
+  font-size: 12px;
+  line-height: 1.65;
+  color: #eadcc8;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.chapter-label {
+  text-align: center;
+  color: var(--gold);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.chapter-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px;
+  text-align: center;
+  color: #e9c995;
+  margin-bottom: 8px;
+}
+
+button, .choice {
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.primary-btn {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  margin: 20px auto 0;
+  padding: 15px 20px;
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 40px;
+  background: linear-gradient(135deg, #ead2a8, #c99d68);
+  color: #302b2b;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.2);
+}
+
+.primary-btn:active { transform: scale(.98); }
+
+.secondary-btn {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  margin: 12px auto 0;
+  padding: 13px 18px;
+  border: 1px solid rgba(236,211,171,.7);
+  border-radius: 35px;
+  color: #f8e7ca;
+  background: rgba(255,255,255,.08);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+input, textarea, select {
+  display: block;
+  width: 100%;
+  margin: 8px 0 15px;
+  padding: 13px 14px;
+  border: 1px solid rgba(237,213,180,.55);
+  border-radius: 12px;
+  outline: none;
+  background: rgba(255,250,241,.96);
+  color: #303343;
+  font: 14px 'Montserrat', sans-serif;
+}
+
+textarea { min-height: 78px; resize: vertical; }
+
+label {
+  display: block;
+  color: #f4dfbd;
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+.choice-list {
+  display: grid;
+  gap: 9px;
+  margin: 12px 0;
+}
+
+.choice {
+  text-align: left;
+  padding: 13px 14px;
+  width: 100%;
+  border: 1px solid rgba(238,214,180,.45);
+  border-radius: 13px;
+  color: #fff5e8;
+  background: rgba(255,255,255,.09);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.choice.selected {
+  background: rgba(224,190,135,.28);
+  border-color: #efd19d;
+  box-shadow: inset 0 0 0 1px rgba(239,209,157,.3);
+}
+
+.scene-art {
+  display: block;
+  max-width: 100%;
+  max-height: 230px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  margin: 12px auto 18px;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.22));
+}
+
+.gift-art {
+  width: min(70%, 230px);
+  height: 190px;
+  object-fit: contain;
+  display: block;
+  margin: 10px auto 16px;
+}
+
+.gift-canvas {
+  display: block;
+  width: min(75%, 240px);
+  max-height: 220px;
+  object-fit: contain;
+  margin: 10px auto 16px;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,.25));
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 11px;
+  margin: 18px auto 8px;
+  max-width: 420px;
+}
+
+.mac-card {
+  aspect-ratio: 3 / 4.2;
+  border: 1px solid rgba(240,213,166,.8);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(226,197,147,.24), transparent 35%),
+    repeating-linear-gradient(45deg, transparent 0 8px, rgba(255,255,255,.035) 8px 9px),
+    linear-gradient(145deg, #344967, #18243c 65%, #4b3852);
+  box-shadow: 0 5px 14px rgba(0,0,0,.25);
+  color: #f4d9a9;
+  position: relative;
+  overflow: hidden;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mac-card::before {
+  content: "✦";
+  position: absolute;
+  font-size: 27px;
+  opacity: .8;
+}
+
+.mac-card::after {
+  content: "✧  ✧";
+  position: absolute;
+  bottom: 13px;
+  font-size: 12px;
+  letter-spacing: 9px;
+  opacity: .65;
+}
+
+.mac-card span {
+  position: relative;
+  z-index: 1;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 23px;
+  opacity: .9;
+}
+
+.mac-card:active { transform: scale(.97); }
+
+.revealed-card {
+  width: min(75%, 250px);
+  margin: 15px auto;
+  padding: 10px;
+  border-radius: 15px;
+  background: rgba(255,255,255,.13);
+  border: 1px solid rgba(240,213,166,.55);
+  animation: appear .7s ease both;
+}
+
+.revealed-card img {
+  width: 100%;
+  display: block;
+  border-radius: 9px;
+}
+
+.revealed-card-title {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 25px;
+  color: #f4d6a6;
+  margin: 12px 0 3px;
+}
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(12px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.final-letter {
+  padding: 20px 18px;
+  border: 1px solid rgba(238,211,169,.5);
+  border-radius: 15px;
+  background: rgba(255,248,235,.10);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 21px;
+  line-height: 1.55;
+  color: #fff4e4;
+  white-space: pre-line;
+}
+
+.footer {
+  width: 100%;
+  padding: 12px 10px 15px;
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  color: #f0d7ad;
+  text-shadow: 0 2px 8px rgba(0,0,0,.6);
+}
+
+.bottom-space {
+  flex: 1 0 8px;
+  min-height: 8px;
+}
+
+@media (max-height: 700px) {
+  .main { padding-top: 10px; padding-bottom: 8px; }
+  .panel { padding: 17px 16px; }
+  .scene-art { max-height: 150px; }
+  .gift-canvas { max-height: 150px; }
+  .footer { padding-top: 7px; padding-bottom: 9px; }
+}
+
+@media (max-width: 380px) {
+  .panel { padding: 18px 15px; }
+  p, .story { font-size: 13px; }
+  .card-grid { gap: 8px; }
 }
 </style>
 </head>
+
 <body>
-<div id="app" class="cover">
-  <div class="top">
-    <span>❄ Маленькое новогоднее чудо</span>
-    <span id="chapterTop"></span>
-  </div>
-  <div class="progress"><span id="progress" style="width:0%"></span></div>
-  <main id="screen"></main>
-  <div class="footer">Создано с теплом Дианой Шакировой ♡</div>
+<div id="app">
+  <div class="top-space"></div>
+  <main class="main" id="main"></main>
+  <div class="bottom-space"></div>
+  <footer class="footer">Создано с теплом Дианой Шакировой</footer>
 </div>
 
 <script>
 const app = document.getElementById('app');
-const screen = document.getElementById('screen');
-const progress = document.getElementById('progress');
-const chapterTop = document.getElementById('chapterTop');
+const main = document.getElementById('main');
 
-const answers = {
-  name:'',
-  age:'',
-  dream:'',
-  care:'',
-  joy:'',
-  wish:'',
-  step:'',
-  card:''
+const state = {
+  step: 'cover',
+  girlName: '',
+  girlAge: '6',
+  dream: '',
+  care: 'Обнять её и дать почувствовать, что она не одна',
+  joy: '',
+  wish: '',
+  firstStep: '',
+  chosenCard: null,
+  giftOpened: false
 };
 
-const chapters = [
-  {
-    title:'Глава первая. Письмо из зимнего города',
-    bg:'village.JPG',
-    scenes:[
-      {
-        text:`В тот вечер снег шёл особенно тихо.
+const cards = [
+  { file: 'card_care.JPG', title: 'Забота о себе', text: 'Тебе не нужно заслуживать заботу. Она нужна тебе не только тогда, когда ты устала или всё сделала. Ты можешь выбирать себя в обычные дни — без объяснений и чувства вины.' },
+  { file: 'card_choose_myself.JPG', title: 'Выбрать себя', text: 'Возможно, пришло время чаще спрашивать себя: «А чего хочу я?» Твой выбор имеет значение. И ты можешь учитывать свои желания, не обесценивая чувства других.' },
+  { file: 'card_dance.JPG', title: 'Разрешить себе движение', text: 'Не всё в жизни нужно контролировать и продумывать. Иногда достаточно позволить себе двигаться, пробовать, ошибаться и снова чувствовать радость.' },
+  { file: 'card_dream.JPG', title: 'Мечта', text: 'Не уменьшай свою мечту только потому, что пока не знаешь дороги к ней. Позволь ей быть. Путь может открываться постепенно, шаг за шагом.' },
+  { file: 'card_inner_warmth.JPG', title: 'Внутреннее тепло', text: 'В тебе есть место, где можно отдохнуть от требований и ожиданий. Возвращайся к этому ощущению через простые вещи: тепло, тишину, дыхание и бережность к себе.' },
+  { file: 'card_my_wish.JPG', title: 'Моё желание', text: 'Твоё желание не становится менее важным оттого, что кому-то оно кажется странным или слишком большим. Прислушайся к нему. Возможно, именно с этого начинается перемена.' },
+  { file: 'card_new_path.JPG', title: 'Новый путь', text: 'Тебе не обязательно видеть весь маршрут. Иногда достаточно заметить ближайшую дверь и решиться сделать один небольшой шаг.' },
+  { file: 'card_new_story.JPG', title: 'Новая история', text: 'Прошлое объясняет многое, но не обязано определять всё будущее. Ты можешь постепенно создавать другую историю — такую, в которой есть место тебе.' },
+  { file: 'card_shine.JPG', title: 'Позволить себе сиять', text: 'Не прячь свои способности, желания и красоту жизни. Тебе не нужно становиться меньше, чтобы другим было удобно. Твоё место в этом мире есть.' },
+  { file: 'card_small_joy.JPG', title: 'Маленькая радость', text: 'Не откладывай жизнь до большого события. Иногда возвращение к себе начинается с маленькой радости, которую ты разрешила себе сегодня.' },
+  { file: 'card_time_for_me.JPG', title: 'Время для себя', text: 'Твоё время — не остаток после всех дел. Ты тоже часть своей жизни. Найди для себя хотя бы немного пространства, в котором не нужно никому ничего доказывать.' },
+  { file: 'card_wonders.JPG', title: 'Место для чудес', text: 'Не всё прекрасное можно заранее рассчитать. Оставь в своей жизни немного места для неожиданного, нового и доброго. Иногда чудо начинается с разрешения ему случиться.' }
+];
 
-        Город уже готовился к Новому году. В окнах зажигались огоньки, на улицах пахло мандаринами, а прохожие торопились домой с пакетами подарков.
-
-        И всё же в этой праздничной суете было что-то необычное.
-
-        Когда ты подошла к своему окну, на подоконнике лежал маленький конверт. Ты точно помнила: ещё минуту назад его там не было.
-
-        Бумага была тёплой, словно письмо только что держали в ладонях. На конверте золотыми буквами было написано: «Той, которая однажды перестала верить в маленькие чудеса».
-
-        Ты открыла его.`
-      },
-      {
-        text:`«Здравствуй.
-
-        Мы давно тебя ждём.
-
-        В одном заснеженном городе есть домик, в котором горит свет даже в самые тёмные вечера. Там живёт маленькая девочка. Она хранит твои забытые желания, радости и мечты.
-
-        Она не сердится, что ты так долго не приходила. Но очень надеется, что в этот Новый год ты найдёшь дорогу к ней.
-
-        Чтобы попасть в город, следуй за золотыми огоньками.
-
-        И помни: тебе не нужно становиться кем-то другим. Достаточно ненадолго остановиться и услышать себя».
-
-        Внизу письма была нарисована маленькая звезда. Стоило коснуться её пальцем, как за окном вспыхнула золотая искорка.`
-      },
-      {
-        text:`Ты накинула тёплое пальто и вышла на улицу.
-
-        Снег мягко поскрипывал под ногами. Впереди, между домами, один за другим загорались маленькие золотые огоньки. Они будто приглашали тебя идти дальше.
-
-        Вскоре привычные улицы остались позади. Перед тобой открылся удивительный зимний городок: нарядные домики, украшенные еловыми ветками двери, фонари и дорожки, усыпанные искрящимся снегом.
-
-        И где-то впереди, за поворотом, ты увидела тёплое окно.
-
-        Может быть, именно там тебя и ждали?`
-      },
-      {
-        text:`Ты остановилась перед небольшим домиком. На двери висел венок из еловых веток, а из трубы поднимался тонкий дымок.
-
-        Внутри кто-то тихонько напевал.
-
-        На пороге лежала ещё одна записка:
-
-        «Прежде чем войти, вспомни: здесь не нужно быть удобной, сильной, правильной или взрослой. Здесь можно быть настоящей.
-
-        Здесь тебе рады просто потому, что ты есть».
-
-        Ты глубоко вдохнула и постучала.`
-      }
-    ]
+const gifts = {
+  heart: {
+    file: 'heart.JPG',
+    title: 'Сердце заботы',
+    text: 'Это маленькое сердце напоминает тебе: любовь начинается не только с того, что ты отдаёшь другим. Она начинается и с того, как ты относишься к себе. Сегодня можно быть к себе немного нежнее.'
   },
-  {
-    title:'Глава вторая. Та, которая тебя ждала',
-    bg:'cottage.JPG',
-    scenes:[
-      {
-        text:`Дверь медленно открылась.
-
-        На пороге стояла маленькая девочка. На ней была уютная одежда, а в руках она держала плюшевого медвежонка.
-
-        Девочка несколько секунд внимательно смотрела на тебя, будто пыталась убедиться, что это действительно ты.
-
-        А потом улыбнулась:
-
-        «Ты пришла! Я так долго тебя ждала… Я уже думала, что ты совсем забыла дорогу ко мне».
-
-        В домике пахло какао, корицей и мандаринами. На столе стояли две чашки, а возле камина лежал мягкий плед.
-
-        Девочка отступила в сторону и пригласила тебя войти.`
-      },
-      {
-        text:`Вы устроились рядом у камина.
-
-        Девочка поглаживала своего медвежонка и иногда поглядывала на тебя.
-
-        «Знаешь, — сказала она, — иногда мне кажется, что взрослые так сильно торопятся жить, что забывают, как это — просто побыть маленькими.
-
-        Они всё время куда-то спешат, что-то решают, о ком-то заботятся…
-
-        А мне иногда хочется просто играть, мечтать, смеяться и знать, что обо мне тоже кто-нибудь позаботится».
-
-        Она немного помолчала.
-
-        «Можно я сегодня побуду с тобой?»`
-      },
-      {
-        text:`Девочка протянула тебе маленький блокнот.
-
-        «Я хочу, чтобы мы познакомились заново. Ведь ты так давно не спрашивала меня, какая я теперь».
-
-        Представь, что ты можешь выбрать для неё имя. Не торопись. Пусть это будет имя, которое вызывает у тебя тепло или улыбку.`,
-        input:'name',
-        placeholder:'Как зовут твою внутреннюю девочку?'
-      },
-      {
-        text:`Девочка уселась поудобнее и спросила:
-
-        «А сколько мне сейчас лет? Мне хочется знать, какой ты меня видишь».
-
-        Выбери возраст, который откликается тебе. Здесь нет правильного ответа.`,
-        choices:[
-          ['4 года','4 года'],
-          ['5 лет','5 лет'],
-          ['6 лет','6 лет'],
-          ['7 лет','7 лет'],
-          ['8 лет','8 лет']
-        ],
-        key:'age'
-      },
-      {
-        text:`«А можно я расскажу тебе о своей мечте?» — спросила девочка.
-
-        Она задумалась и посмотрела на огонь в камине.
-
-        «Я мечтаю, чтобы у нас было больше времени на то, что радует. Чтобы можно было танцевать без повода, рисовать, гулять, смеяться и не думать, что это глупости.
-
-        А ещё я хочу, чтобы ты иногда спрашивала меня, чего я хочу. Не только тогда, когда всё уже сделано. А просто так».
-
-        А о чём мечтает твоя девочка? Что ей хочется почувствовать, попробовать или получить?`,
-        input:'dream',
-        placeholder:'Запиши её мечту…'
-      },
-      {
-        text:`Ты смотришь на свою девочку и можешь выбрать, как сейчас проявить к ней заботу.
-
-        Не нужно обещать невозможного. Достаточно маленького, настоящего жеста.
-
-        Что тебе хочется сделать для неё прямо сейчас?`,
-        choices:[
-          ['Обнять её и побыть рядом','Обнять и побыть рядом'],
-          ['Внимательно выслушать','Выслушать'],
-          ['Поиграть и повеселиться','Поиграть вместе'],
-          ['Сказать ей добрые слова','Сказать добрые слова'],
-          ['Позволить ей помечтать','Дать ей помечтать']
-        ],
-        key:'care'
-      },
-      {
-        text:`Девочка улыбнулась и прижала медвежонка к груди.
-
-        «Мне так хорошо, когда ты не торопишь меня. Когда не говоришь, что я должна быть другой. Когда просто слушаешь.
-
-        Знаешь, я не прошу тебя всё бросить и снова стать ребёнком. Я хочу, чтобы в твоей взрослой жизни осталось немного места для меня.
-
-        Для радости. Для игры. Для желаний. Для маленьких чудес».
-
-        Она протянула тебе маленький конверт.
-
-        «Это тебе. Но открыть его можно будет чуть позже. Сначала нас ждёт одно очень интересное место…»`
-      }
-    ]
+  star: {
+    file: 'star.JPG',
+    title: 'Звезда надежды',
+    text: 'Звезда не показывает весь путь. Она просто помогает не потерять направление. Даже если сейчас ты видишь только один маленький шаг, этого достаточно, чтобы начать движение.'
   },
-  {
-    title:'Глава третья. Лавка забытых радостей',
-    bg:'toyshop.JPG',
-    scenes:[
-      {
-        text:`Вы вышли из домика и направились по узкой улочке.
-
-        Девочка шла рядом, иногда подпрыгивая на снегу. Вскоре вы заметили вывеску: «Лавка забытых радостей».
-
-        За витриной переливались разноцветные огоньки. Там были воздушные шары, краски, музыкальные шкатулки, игрушки и множество удивительных мелочей.
-
-        «Здесь хранятся радости, которые взрослые когда-то отложили на потом, — объяснила девочка. — Некоторые из них ждут уже очень давно».
-
-        Дверь лавки тихонько звякнула колокольчиком.`
-      },
-      {
-        text:`Внутри было тепло и уютно. На полках стояли коробочки с надписями: «Танцевать», «Рисовать», «Гулять без спешки», «Петь», «Смеяться», «Мечтать».
-
-        Хозяин лавки улыбнулся:
-
-        «Каждая радость здесь когда-то принадлежала кому-то. Но она не исчезла. Иногда достаточно снова разрешить себе её».
-
-        Девочка посмотрела на тебя:
-
-        «А какую радость ты давно откладываешь? Что тебе хотелось бы вернуть в свою жизнь?»`,
-        input:'joy',
-        placeholder:'Моя забытая радость…'
-      },
-      {
-        text:`Ты назвала свою радость, и одна из коробочек на полке мягко засветилась.
-
-        Хозяин бережно снял её и поставил перед тобой.
-
-        «Забери её с собой. Но помни: радость не обязательно должна быть большой или дорогой. Иногда это пятнадцать минут наедине с собой, любимая музыка, прогулка или чашка чая в тишине.
-
-        Важно не ждать особенного дня, чтобы позволить себе жить».
-
-        Девочка взяла тебя за руку:
-
-        «Давай пообещаем, что хотя бы одну маленькую радость мы вернём в нашу жизнь».`
-      },
-      {
-        text:`Когда вы вышли из лавки, за вашей спиной зазвенел колокольчик.
-
-        Девочка несла маленькую коробочку и выглядела очень довольной.
-
-        «Знаешь, я думала, что мы будем искать что-то волшебное где-то далеко. А оказалось, что некоторые чудеса совсем рядом. Просто мы перестали их замечать».
-
-        Впереди показалась площадь, над которой кружились золотые искорки.
-
-        «Пойдём! Кажется, там для нас приготовили кое-что особенное».`
-      }
-    ]
+  spark: {
+    file: 'spark.JPG',
+    title: 'Искорка внутри',
+    text: 'Внутри тебя есть искра — интерес, желание, энергия, которая иногда становится почти незаметной под повседневными делами. Не требуй от себя большого огня. Позволь искре разгореться постепенно.'
   },
-  {
-    title:'Глава четвёртая. Подарок под звёздами',
-    bg:'room.JPG',
-    scenes:[
-      {
-        text:`На площади вас встретил хранитель зимних чудес.
-
-        Он держал в руках небольшую коробочку, перевязанную золотой лентой.
-
-        «Это подарок для той, кто сегодня нашла дорогу к себе, — сказал он. — Но его нельзя просто взять. Сначала нужно понять, что ты хочешь подарить себе в новом году».
-
-        Девочка посмотрела на тебя:
-
-        «Мне кажется, это очень важный вопрос. Ведь мы так часто ждём подарков от других, а сами забываем о себе».
-
-        Хранитель поставил коробочку на маленький столик.
-
-        «Когда будешь готова, открой её».`
-      },
-      {
-        text:`Прежде чем открыть подарок, задержись на мгновение.
-
-        Представь, что в новом году ты можешь подарить себе не вещь, а состояние.
-
-        Больше спокойствия? Смелости? Свободы? Времени? Радости? Возможности выбирать себя?
-
-        Не ищи красивый ответ. Прислушайся к тому, чего тебе действительно не хватает.
-
-        Когда почувствуешь готовность, нажми на кнопку и открой подарок.`,
-        action:'reveal'
-      },
-      {
-        text:`Внутри коробочки лежала маленькая золотая звезда.`,
-        image:'star.JPG',
-        imageGift:true
-      },
-      {
-        text:`Хранитель улыбнулся:
-
-        «Эта звезда напоминает: ты не обязана ждать разрешения, чтобы заботиться о себе, мечтать и выбирать то, что делает твою жизнь ближе к желаемой.
-
-        Пусть она станет символом твоего внутреннего света. Не того, который нужно кому-то доказывать, а того, который можно бережно хранить».
-
-        Девочка осторожно коснулась звезды.
-
-        «А можно загадать желание?» — спросила она.
-
-        «Конечно. Но для начала давайте отправимся туда, где желания обретают направление».`
-      }
-    ]
+  snowflake: {
+    file: 'snowflake.JPG',
+    title: 'Снежинка уникальности',
+    text: 'Нет двух одинаковых снежинок. И тебе не нужно быть похожей на кого-то, чтобы быть ценной. Твоя особенность — не то, что нужно исправить. Это часть тебя.'
   },
-  {
-    title:'Глава пятая. Дерево желаний',
-    bg:'christmas_square.JPG',
-    scenes:[
-      {
-        text:`Вы пришли на большую новогоднюю площадь.
-
-        В самом центре стояла высокая ель. Её ветви были украшены маленькими фонариками, а под ними висели сотни записок с желаниями.
-
-        Хранитель объяснил:
-
-        «Это дерево не исполняет желания вместо человека. Оно помогает услышать то, что действительно важно, и найти первый шаг навстречу этому».
-
-        Девочка достала из кармана маленькую золотую звёздочку.
-
-        «Давай загадаем что-нибудь настоящее. Не то, что от нас ждут другие, а то, чего хочется именно нам».`
-      },
-      {
-        text:`Представь, что наступает новый год, и у тебя появляется возможность сделать свою жизнь немного ближе к той, о которой ты мечтаешь.
-
-        Что ты хочешь впустить в неё?
-
-        Это может быть новое дело, отношения, отдых, путешествие, уверенность, деньги, свобода или что-то совсем своё.
-
-        Запиши одно желание. Не ограничивай себя тем, что кажется возможным прямо сейчас.`,
-        input:'wish',
-        placeholder:'Моё желание на новый год…'
-      },
-      {
-        text:`Ты повесила свою записку на ветку.
-
-        Звёздочка в руках девочки вспыхнула мягким светом.
-
-        «А знаешь, — сказала она, — мне нравится, что желание теперь не просто живёт в голове. Оно стало видимым. Его можно увидеть, вспомнить и однажды сделать для него что-то настоящее».
-
-        Хранитель протянул тебе маленькую карточку:
-
-        «У большого пути почти всегда есть первый небольшой шаг. Какой шаг ты можешь сделать сама, без ожидания идеального момента?»`,
-        input:'step',
-        placeholder:'Мой первый маленький шаг…'
-      },
-      {
-        text:`Девочка внимательно прочитала твою записку.
-
-        «Мне нравится твой шаг. Он не должен быть огромным. Главное, чтобы он был твоим.
-
-        И если однажды ты забудешь о своём желании, вспомни этот вечер. Ты уже однажды остановилась, услышала себя и выбрала направление».
-
-        Ветер слегка качнул ветви ели, и с неё упала маленькая снежинка.
-
-        На площади зазвучала тихая музыка. Настало время последнего волшебства.`
-      }
-    ]
-  },
-  {
-    title:'Глава шестая. Послание для тебя',
-    bg:'wishing_tree.JPG',
-    scenes:[
-      {
-        text:`На небольшой скамейке возле дерева лежала красивая колода карточек.
-
-        «Здесь собраны послания, — объяснила девочка. — Каждая карточка напоминает о чём-то важном: заботе, смелости, радости, желаниях, новом пути.
-
-        Не нужно выбирать самую красивую. Выбери ту, которая сейчас притягивает твой взгляд».
-
-        Перед тобой появятся двенадцать карточек. Выбери одну интуитивно, не пытаясь угадать правильную.`
-      },
-      {type:'cards'},
-      {
-        text:`Ты выбрала свою карточку:`,
-        type:'chosenCard'
-      },
-      {
-        text:`Девочка подошла к тебе и крепко обняла.
-
-        «Спасибо, что сегодня ты пришла ко мне. Я не хочу, чтобы ты вспоминала обо мне только в праздники.
-
-        Давай иногда встречаться — в маленьких радостях, в мечтах, в музыке, в прогулках, в твоём отдыхе. Я буду рядом, когда ты позволишь себе услышать себя».
-
-        За окном начинался тихий снегопад. Пора было возвращаться домой, но теперь ты знала: дорога к этому домику никуда не исчезнет.`
-      },
-      {
-        text:`Перед уходом девочка вложила тебе в ладонь письмо.
-
-        «Открой его, когда вернёшься домой».
-
-        Внутри оказалось послание, написанное словно специально для тебя.
-
-        Ты можешь сохранить его, перечитать в любой момент и возвращаться к своим желаниям столько раз, сколько захочешь.`
-      },
-      {type:'final'}
-    ]
+  butterfly: {
+    file: 'butterfly.JPG',
+    title: 'Бабочка перемен',
+    text: 'Перемены не всегда происходят громко. Иногда сначала меняется взгляд на себя, потом появляется новое решение, а уже после — новые действия. Дай себе время раскрыться.'
   }
-];
+};
 
-const cardData = [
- ['card_care.JPG','Забота о себе'],
- ['card_choose_myself.JPG','Я выбираю себя'],
- ['card_dance.JPG','Разреши себе радость'],
- ['card_dream.JPG','Мечтай смелее'],
- ['card_inner_warmth.JPG','Внутреннее тепло'],
- ['card_my_wish.JPG','Моё желание'],
- ['card_new_path.JPG','Новый путь'],
- ['card_new_story.JPG','Новая история'],
- ['card_shine.JPG','Позволь себе сиять'],
- ['card_small_joy.JPG','Маленькие радости'],
- ['card_time_for_me.JPG','Время для себя'],
- ['card_wonders.JPG','Чудеса рядом']
-];
-
-let flatScenes = [];
-let index = 0;
-let giftRevealed = false;
-let chosenCardIndex = -1;
-
-chapters.forEach((chapter, ci) => {
-  flatScenes.push({
-    type:'chapter',
-    title:chapter.title,
-    bg:chapter.bg,
-    chapter:ci+1
+function escapeHTML(value) {
+  return String(value || '').replace(/[&<>"']/g, function(char) {
+    return ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;',
+      '"': '&quot;', "'": '&#39;'
+    })[char];
   });
-  chapter.scenes.forEach(scene => {
-    flatScenes.push({...scene,bg:chapter.bg,chapter:ci+1});
-  });
-});
-
-function esc(s) {
-  return String(s ?? '').replace(/[&<>"']/g, c => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[c]));
 }
 
 function setBackground(file) {
-  app.style.backgroundImage =
-    `linear-gradient(180deg,rgba(8,20,38,.12),rgba(8,20,38,.32)),url("${file}")`;
-  app.classList.remove('cover');
+  app.style.backgroundImage = "url('" + file + "')";
 }
 
-function footerProgress() {
-  progress.style.width = Math.round(index / flatScenes.length * 100) + '%';
+function button(label, action, secondary = false) {
+  return `<button class="${secondary ? 'secondary-btn' : 'primary-btn'}" data-action="${action}">${label}</button>`;
 }
 
-function button(label,fn,cls='primary') {
-  const b=document.createElement('button');
-  b.className=cls;
-  b.textContent=label;
-  b.onclick=fn;
-  return b;
+function panel(content, extraClass = '') {
+  main.innerHTML = `<section class="panel ${extraClass}">${content}</section>`;
 }
 
-function panel(title,body) {
-  const box=document.createElement('section');
-  box.className='panel';
-  if(title) {
-    const h=document.createElement('h2');
-    h.textContent=title;
-    box.appendChild(h);
-  }
-  box.appendChild(body);
-  return box;
+function page(bg, content, extraClass = '') {
+  setBackground(bg);
+  panel(content, extraClass);
+  window.scrollTo(0, 0);
 }
 
-function paragraph(text) {
-  const p=document.createElement('p');
-  p.className='story';
-  p.textContent=text;
-  return p;
+function chapterPage(number, title, teaser, bg, nextStep) {
+  page(bg, `
+    <div class="chapter-label">Маленькое новогоднее чудо</div>
+    <div class="chapter-number">Глава ${number}</div>
+    <h2>${title}</h2>
+    <div class="story center">${teaser}</div>
+    ${button('Продолжить путешествие', nextStep)}
+  `);
 }
 
-function next() {
-  if(index < flatScenes.length-1) {
-    index++;
-    render();
-  }
+function cover() {
+  setBackground('village.JPG');
+  panel(`
+    <div class="eyebrow">Психологическая игра-сказка</div>
+    <img class="scene-art" src="girl.PNG" alt="Девочка">
+    <h1>Маленькое<br>новогоднее чудо</h1>
+    <div class="subtitle">Сказочное путешествие к себе</div>
+    <p class="center">Иногда самое настоящее чудо — снова услышать себя, вспомнить свои желания и позволить себе немного волшебства.</p>
+    <p class="center gold" style="margin-top:18px">Диана Шакирова</p>
+    <p class="center" style="font-size:11px">Психолог • Телесный терапевт</p>
+    ${button('Начать сказку', 'intro')}
+  `, 'cover-panel');
+  window.scrollTo(0, 0);
 }
 
-function addNext(box,label='Продолжить') {
-  box.appendChild(button(label,next));
+function intro() {
+  page('village.JPG', `
+    <div class="eyebrow">Одним зимним вечером…</div>
+    <h2>Письмо, которое ждало тебя</h2>
+    <div class="story">
+      <p>В тот вечер снег падал особенно тихо. Город уже зажёг огни, в окнах мерцали гирлянды, а воздух пах приближающимся праздником.</p>
+      <p>Ты шла по своим привычным делам, когда заметила на снегу маленький конверт. Он был перевязан золотой нитью. На конверте аккуратным почерком было написано:</p>
+      <p class="center gold">«Той, которая однажды перестала замечать маленькие чудеса».</p>
+      <p>Ты остановилась. Почему-то стало понятно: письмо адресовано именно тебе.</p>
+      <p>Внутри лежала записка:</p>
+      <p class="gold">«Я знаю, что ты многое успеваешь, о многом заботишься и часто откладываешь себя на потом. Но где-то в одном маленьком зимнем домике тебя очень ждут. Там живёт девочка, которая помнит твои мечты. Она хранит кое-что важное для тебя.</p>
+      <p class="gold">Если захочешь встретиться с ней, иди за золотыми огоньками. Сегодня можно никуда не торопиться».</p>
+      <p>Вдалеке действительно загорелась крошечная золотая искорка. Потом ещё одна. И ещё… Они складывались в дорожку, ведущую к старому зимнему городу.</p>
+      <p>Ты можешь сделать первый шаг. А можешь пока просто побыть здесь и почувствовать, хочется ли тебе этого путешествия.</p>
+    </div>
+    ${button('Я хочу отправиться в путь', 'chapter1')}
+  `);
 }
 
-function saveInput(scene,box) {
-  const field=document.createElement('textarea');
-  field.placeholder=scene.placeholder || 'Напиши здесь…';
-  field.value=answers[scene.input] || '';
-  field.rows=2;
-  box.appendChild(field);
-  box.appendChild(button('Сохранить и продолжить',()=>{
-    answers[scene.input]=field.value.trim();
-    next();
-  }));
+function chapter1() {
+  chapterPage(
+    '1',
+    'Дорога огоньков',
+    `<p>Золотые огоньки ведут тебя всё дальше. За поворотом открывается маленький городок: заснеженные крыши, светящиеся окна и улица, по которой будто никто не ходил много лет.</p>
+     <p>В конце улицы стоит домик с тёплым светом в окне. На двери висит маленький колокольчик. Кажется, внутри тебя уже ждут…</p>`,
+    'village.JPG',
+    'journey'
+  );
 }
 
-function addChoices(scene,box) {
-  scene.choices.forEach(([label,value])=>{
-    box.appendChild(button(label,()=>{
-      answers[scene.key]=value;
-      next();
-    },'choice'));
-  });
+function journey() {
+  page('cottage.JPG', `
+    <div class="eyebrow">Ты почти у цели</div>
+    <h2>Домик с тёплым окном</h2>
+    <div class="story">
+      <p>Ты подходишь к домику. На крыльце лежит пушистый снег, а из трубы поднимается тонкая струйка дыма.</p>
+      <p>Когда ты касаешься колокольчика, дверь тихонько открывается. Изнутри доносится запах корицы, мандаринов и горячего какао.</p>
+      <p>На пороге появляется маленькая девочка. Она прижимает к себе плюшевого мишку и смотрит на тебя так, словно узнала сразу.</p>
+      <p class="gold">«Ты всё-таки пришла… Я так долго тебя ждала».</p>
+    </div>
+    ${button('Войти в дом', 'chapter2')}
+  `);
 }
 
-function renderCover() {
-  app.classList.add('cover');
-  app.style.backgroundImage =
-    `linear-gradient(180deg,rgba(8,20,38,.18),rgba(8,20,38,.3)),url("village.JPG")`;
-  chapterTop.textContent='';
-  progress.style.width='0%';
-  screen.innerHTML='';
-
-  const box=document.createElement('section');
-  box.className='panel';
-
-  const label=document.createElement('div');
-  label.className='cover-label';
-  label.textContent='Психологическая игра-сказка';
-  box.appendChild(label);
-
-  const title=document.createElement('h1');
-  title.textContent='Маленькое новогоднее чудо';
-  box.appendChild(title);
-
-  const sub=document.createElement('div');
-  sub.className='subtitle';
-  sub.textContent='Путешествие к себе, своим желаниям и внутренней девочке';
-  box.appendChild(sub);
-
-  const girl=document.createElement('img');
-  girl.src='girl.PNG';
-  girl.className='girl';
-  girl.alt='Маленькая девочка';
-  box.appendChild(girl);
-
-  const author=document.createElement('div');
-  author.className='author';
-  author.innerHTML='<strong>Диана Шакирова</strong><br>Психолог • Телесный терапевт';
-  box.appendChild(author);
-
-  box.appendChild(button('Начать путешествие ✨',()=>{
-    index=0;
-    render();
-  }));
-  screen.appendChild(box);
+function chapter2() {
+  chapterPage(
+    '2',
+    'Та, которая тебя помнит',
+    `<p>За дверью — уютная комната, мягкий плед и чашки с какао. Девочка смотрит на тебя с любопытством. Она помнит то, о чём взрослая ты могла давно забыть: свои мечты, любимые игры и желание быть услышанной.</p>
+     <p>Сегодня у вас будет время поговорить. Не нужно отвечать правильно. Здесь можно быть настоящей.</p>`,
+    'room.JPG',
+    'meetGirl'
+  );
 }
 
-function renderChapter(scene) {
-  const body=document.createElement('div');
-  body.appendChild(paragraph(
-    'Каждая новая глава — ещё один шаг в твоём маленьком путешествии. Не торопись. Здесь можно читать, чувствовать, вспоминать и выбирать то, что откликается именно тебе.'
-  ));
-  body.appendChild(button('Войти в эту главу ✨',next));
-  screen.appendChild(panel(scene.title,body));
+function meetGirl() {
+  page('room.JPG', `
+    <div class="eyebrow">Встреча с собой</div>
+    <h2>«Я так тебя ждала…»</h2>
+    <img class="scene-art" src="girl.PNG" alt="Девочка">
+    <div class="story">
+      <p>Девочка устраивается рядом и осторожно спрашивает:</p>
+      <p class="gold">«Скажи, как тебя зовут? А можно я буду знать, как зовут ту маленькую девочку внутри тебя? Мне хочется познакомиться с ней поближе».</p>
+      <p>Она ставит на стол две чашки какао. За окном медленно кружатся снежинки.</p>
+    </div>
+
+    <label>Как ты хочешь назвать свою внутреннюю девочку?</label>
+    <input id="girlName" maxlength="30" placeholder="Напиши имя или ласковое прозвище" value="${escapeHTML(state.girlName)}">
+
+    <label>Сколько ей лет?</label>
+    <select id="girlAge">
+      ${['4','5','6','7','8','9','10','11','12','Не знаю'].map(age =>
+        `<option value="${age}" ${state.girlAge === age ? 'selected' : ''}>${age === 'Не знаю' ? age : age + ' лет'}</option>`
+      ).join('')}
+    </select>
+
+    <label>О чём она мечтает?</label>
+    <textarea id="dream" placeholder="Что ей хочется? О чём она мечтает?">${escapeHTML(state.dream)}</textarea>
+
+    <label>Какой заботы ей сейчас хочется от тебя?</label>
+    <div class="choice-list" id="careChoices">
+      ${[
+        'Обнять её и дать почувствовать, что она не одна',
+        'Выслушать её и отнестись серьёзно к её чувствам',
+        'Поиграть с ней и позволить ей радоваться',
+        'Сказать ей добрые слова',
+        'Разрешить ей мечтать и не торопить'
+      ].map(item => `<button class="choice ${state.care === item ? 'selected' : ''}" data-care="${escapeHTML(item)}">${item}</button>`).join('')}
+    </div>
+    ${button('Продолжить разговор', 'saveGirl')}
+  `);
 }
 
-function renderCards(box) {
-  const intro=document.createElement('p');
-  intro.textContent='Посмотри на карточки и выбери ту, к которой сейчас тянется взгляд.';
-  box.appendChild(intro);
-
-  const grid=document.createElement('div');
-  grid.className='card-grid';
-
-  cardData.forEach((card,i)=>{
-    const item=document.createElement('button');
-    item.className='card-option';
-    const img=document.createElement('img');
-    img.src=card[0];
-    img.alt=card[1];
-    const name=document.createElement('span');
-    name.textContent=card[1];
-    item.append(img,name);
-    item.onclick=()=>{
-      answers.card=card[1];
-      chosenCardIndex=i;
-      next();
-    };
-    grid.appendChild(item);
-  });
-  box.appendChild(grid);
+function saveGirl() {
+  state.girlName = document.getElementById('girlName').value.trim();
+  state.girlAge = document.getElementById('girlAge').value;
+  state.dream = document.getElementById('dream').value.trim();
+  if (!state.girlName) state.girlName = 'Малышка';
+  if (!state.dream) state.dream = 'чтобы в её жизни было больше радости и свободы';
+  chapterPage(
+    '3',
+    'Лавка забытых радостей',
+    `<p>Девочка улыбается и берёт тебя за руку. «Я рада, что мы познакомились. А теперь пойдём! Я знаю место, где хранятся радости, которые взрослые иногда оставляют где-то далеко-далеко».</p>
+     <p>Вы выходите на заснеженную улицу. За старинной витриной мерцают огоньки, а над дверью написано: «Лавка забытых радостей».</p>`,
+    'toyshop.JPG',
+    'shop'
+  );
 }
 
-function renderChosenCard(box) {
-  if(chosenCardIndex<0) chosenCardIndex=0;
-  const card=cardData[chosenCardIndex];
-  const img=document.createElement('img');
-  img.src=card[0];
-  img.className='scene-image';
-  img.alt=card[1];
-  box.appendChild(img);
-  const title=document.createElement('h3');
-  title.textContent=card[1];
-  box.appendChild(title);
-  box.appendChild(paragraph(
-    'Побудь немного с этой карточкой. Что в ней откликается тебе? Какое чувство или мысль она пробуждает? Не нужно искать единственно верное толкование — самое важное сейчас то значение, которое ты сама ей придаёшь.'
-  ));
-  addNext(box,'Продолжить');
+function shop() {
+  page('toyshop_inside.JPG', `
+    <div class="eyebrow">Лавка забытых радостей</div>
+    <h2>То, что когда-то радовало</h2>
+    <div class="story">
+      <p>Внутри лавки всё наполнено теплом. На полках стоят краски, музыкальные шкатулки, воздушные шарики, книги, ленточки и коробочки с маленькими сокровищами.</p>
+      <p>Хозяйка лавки улыбается:</p>
+      <p class="gold">«Здесь ничего не потеряно навсегда. Иногда радости просто ждут, когда мы снова о них вспомним».</p>
+      <p>Девочка подходит к полке с разноцветными коробочками. «А что радовало тебя? Что ты давно не разрешала себе делать — просто так, без пользы и результата?»</p>
+    </div>
+    <label>Вспомни маленькую или большую радость, которую ты хотела бы вернуть в свою жизнь</label>
+    <textarea id="joy" placeholder="Например: танцевать, рисовать, гулять, путешествовать, петь…">${escapeHTML(state.joy)}</textarea>
+    <p class="small-note">Не обязательно выбирать что-то полезное. Пусть это будет то, от чего тебе становится хорошо.</p>
+    ${button('Забрать свою радость', 'saveJoy')}
+  `);
 }
 
-function renderFinal(box) {
-  const name=answers.name || 'Моя дорогая девочка';
-  const letter =
-`Дорогая ${name}!
-
-Сегодня мы встретились после долгой разлуки.
-
-Я хочу, чтобы ты знала: я слышу тебя. Твои мечты, желания и маленькие радости важны для меня.
-
-Я хочу чаще замечать то, что делает нас счастливыми, не откладывать жизнь на потом и находить время для себя.
-
-Я помню твою мечту: ${answers.dream || 'мечтать и радоваться жизни'}.
-
-Я хочу проявлять к тебе заботу: ${answers.care || 'быть рядом и слышать тебя'}.
-
-Я не обещаю, что всё изменится за один день. Но я могу начать с маленького шага: ${answers.step || 'сделать что-то хорошее для себя'}.
-
-И я хочу помнить о желании: ${answers.wish || 'которое сегодня родилось в моём сердце'}.
-
-С теплом,
-Ты сама ❤️`;
-
-  const h=document.createElement('h3');
-  h.textContent='Твоё письмо себе';
-  box.appendChild(h);
-  const p=document.createElement('p');
-  p.style.whiteSpace='pre-line';
-  p.textContent=letter;
-  box.appendChild(p);
-
-  const copy=button('Скопировать письмо',()=>{
-    if(navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(letter)
-        .then(()=>{copy.textContent='Письмо скопировано ❤️';})
-        .catch(()=>fallbackCopy(letter,copy));
-    } else fallbackCopy(letter,copy);
-  });
-  box.appendChild(copy);
-
-  box.appendChild(button('Завершить путешествие ✨',()=>{
-    screen.innerHTML='';
-    const done=document.createElement('section');
-    done.className='panel center';
-    const h2=document.createElement('h2');
-    h2.textContent='Твоё чудо уже началось';
-    done.appendChild(h2);
-    done.appendChild(paragraph(
-      'Пусть в твоей жизни будет больше места для желаний, нежности, радости и заботы о себе. И пусть дорога к маленькой девочке внутри тебя всегда остаётся открытой.'
-    ));
-    done.appendChild(button('Пройти сказку ещё раз',()=>{
-      Object.keys(answers).forEach(k=>answers[k]='');
-      chosenCardIndex=-1;
-      index=0;
-      render();
-    }));
-    screen.appendChild(done);
-  }));
+function saveJoy() {
+  state.joy = document.getElementById('joy').value.trim();
+  if (!state.joy) state.joy = 'чаще замечать маленькие радости и находить время для себя';
+  chapterPage(
+    '4',
+    'Пять волшебных подарков',
+    `<p>Хозяйка лавки достаёт небольшую шкатулку. Внутри что-то тихо мерцает.</p>
+     <p>«Эти подарки нельзя купить. Каждый из них напоминает о том, что уже есть в тебе. Но открывать их нужно не спеша — чтобы успеть почувствовать смысл каждого».</p>
+     <p>Девочка протягивает тебе шкатулку. В ней лежат пять маленьких чудес…</p>`,
+    'christmas_square.JPG',
+    'giftHeart'
+  );
 }
 
-function fallbackCopy(text,btn) {
-  const area=document.createElement('textarea');
-  area.value=text;
-  document.body.appendChild(area);
-  area.select();
-  try {
-    document.execCommand('copy');
-    btn.textContent='Письмо скопировано ❤️';
-  } catch(e) {
-    btn.textContent='Выдели текст письма и скопируй';
-  }
-  area.remove();
+function giftScene(key, nextStep) {
+  const gift = gifts[key];
+  state.giftOpened = false;
+  page('christmas_square.JPG', `
+    <div class="eyebrow">Подарок ${Object.keys(gifts).indexOf(key) + 1} из 5</div>
+    <h2>${gift.title}</h2>
+    <div class="story center">
+      <p>В шкатулке появляется мягкое сияние. Перед тобой лежит маленький подарок.</p>
+      <p>Кажется, он приготовлен именно для тебя. Нажми, чтобы открыть его.</p>
+    </div>
+    <div id="giftArea">
+      <div class="gift-placeholder" style="font-size:50px;text-align:center;margin:22px 0;color:#f3d6a2">✧</div>
+    </div>
+    ${button('Открыть подарок', 'openGift')}
+    <div id="giftText"></div>
+    <div id="giftNext"></div>
+  `);
+  const btn = main.querySelector('[data-action="openGift"]');
+  btn.dataset.gift = key;
+  btn.dataset.next = nextStep;
 }
 
-/* Удаление зелёного фона по краям изображения.
-   Обрабатываются только зелёные области, соединённые с краями. */
-function removeGreenBackground(img) {
-  if(img.dataset.cleaned==='yes') return;
-  img.dataset.cleaned='yes';
+function revealGift(key, nextStep) {
+  const gift = gifts[key];
+  const area = document.getElementById('giftArea');
+  const textArea = document.getElementById('giftText');
+  const nextArea = document.getElementById('giftNext');
+  const btn = main.querySelector('[data-action="openGift"]');
 
-  const process=()=>{
+  if (state.giftOpened) return;
+  state.giftOpened = true;
+
+  area.innerHTML = `<canvas id="giftCanvas" class="gift-canvas" aria-label="${gift.title}"></canvas>`;
+  processGiftImage(gift.file, document.getElementById('giftCanvas'));
+
+  textArea.innerHTML = `<div class="story center"><p class="gold">${gift.title}</p><p>${gift.text}</p></div>`;
+  btn.style.display = 'none';
+  nextArea.innerHTML = button('Принять подарок', nextStep);
+}
+
+function processGiftImage(filename, canvas) {
+  const img = new Image();
+  img.onload = function() {
+    const maxWidth = 700;
+    const scale = Math.min(1, maxWidth / img.naturalWidth);
+    const w = Math.max(1, Math.round(img.naturalWidth * scale));
+    const h = Math.max(1, Math.round(img.naturalHeight * scale));
+    canvas.width = w;
+    canvas.height = h;
+
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(img, 0, 0, w, h);
+
+    let imageData;
     try {
-      const w=img.naturalWidth, h=img.naturalHeight;
-      if(!w || !h) return;
-      const canvas=document.createElement('canvas');
-      canvas.width=w; canvas.height=h;
-      const ctx=canvas.getContext('2d',{willReadFrequently:true});
-      ctx.drawImage(img,0,0);
-      const image=ctx.getImageData(0,0,w,h);
-      const d=image.data;
-      const total=w*h;
-      const seen=new Uint8Array(total);
-      const queue=new Int32Array(total);
-      let head=0,tail=0;
+      imageData = ctx.getImageData(0, 0, w, h);
+    } catch (error) {
+      return;
+    }
 
-      function green(i) {
-        const p=i*4, r=d[p],g=d[p+1],b=d[p+2];
-        return g>65 && g>r*1.16 && g>b*1.12 && g-r>18;
-      }
-      function add(i) {
-        if(i<0 || i>=total || seen[i] || !green(i)) return;
-        seen[i]=1;
-        queue[tail++]=i;
-      }
-      for(let x=0;x<w;x++) {add(x);add((h-1)*w+x);}
-      for(let y=0;y<h;y++) {add(y*w);add(y*w+w-1);}
+    const pixels = imageData.data;
+    const total = w * h;
+    const transparent = new Uint8Array(total);
+    const queue = new Int32Array(total);
+    let head = 0;
+    let tail = 0;
 
-      while(head<tail) {
-        const i=queue[head++];
-        d[i*4+3]=0;
-        const x=i%w;
-        if(x>0) add(i-1);
-        if(x<w-1) add(i+1);
-        if(i>=w) add(i-w);
-        if(i<total-w) add(i+w);
-      }
+    function isGreen(index) {
+      const p = index * 4;
+      const r = pixels[p];
+      const g = pixels[p + 1];
+      const b = pixels[p + 2];
+      return g > 65 && g > r * 1.22 && g > b * 1.12;
+    }
 
-      /* Убираем зелёный оттенок на прилегающих пикселях */
-      for(let i=0;i<total;i++) {
-        if(seen[i]) continue;
-        const p=i*4, r=d[p],g=d[p+1],b=d[p+2];
-        if(g>r*1.08 && g>b*1.08 && g-r>8) {
-          let near=false;
-          const x=i%w;
-          if(x>0 && seen[i-1]) near=true;
-          if(x<w-1 && seen[i+1]) near=true;
-          if(i>=w && seen[i-w]) near=true;
-          if(i<total-w && seen[i+w]) near=true;
-          if(near) d[p+1]=Math.min(g,r+(g-r)*.35);
+    function add(index) {
+      if (index < 0 || index >= total || transparent[index] || !isGreen(index)) return;
+      transparent[index] = 1;
+      queue[tail++] = index;
+    }
+
+    for (let x = 0; x < w; x++) {
+      add(x);
+      add((h - 1) * w + x);
+    }
+    for (let y = 0; y < h; y++) {
+      add(y * w);
+      add(y * w + w - 1);
+    }
+
+    while (head < tail) {
+      const i = queue[head++];
+      const x = i % w;
+      const y = Math.floor(i / w);
+      if (x > 0) add(i - 1);
+      if (x < w - 1) add(i + 1);
+      if (y > 0) add(i - w);
+      if (y < h - 1) add(i + w);
+    }
+
+    for (let i = 0; i < total; i++) {
+      const p = i * 4;
+      if (transparent[i]) {
+        pixels[p + 3] = 0;
+      } else {
+        const r = pixels[p];
+        const g = pixels[p + 1];
+        const b = pixels[p + 2];
+        if (g > r * 1.12 && g > b * 1.08) {
+          pixels[p + 1] = Math.max(r, b, Math.round(g * .78));
         }
       }
-      ctx.putImageData(image,0,0);
-      img.src=canvas.toDataURL('image/png');
-    } catch(e) {
-      console.log('Не удалось обработать фон подарка',e);
     }
+
+    ctx.putImageData(imageData, 0, 0);
   };
-  if(img.complete) process();
-  else img.addEventListener('load',process,{once:true});
+  img.onerror = function() {
+    const area = document.getElementById('giftArea');
+    if (area) area.innerHTML = `<img class="gift-art" src="${filename}" alt="Волшебный подарок">`;
+  };
+  img.src = filename;
 }
 
-function render() {
-  if(index>=flatScenes.length) index=flatScenes.length-1;
-  const scene=flatScenes[index];
-  setBackground(scene.bg);
-  chapterTop.textContent='Глава '+scene.chapter+' из 6';
-  footerProgress();
-  screen.innerHTML='';
+function giftHeart() { giftScene('heart', 'giftStar'); }
+function giftStar() { giftScene('star', 'giftSpark'); }
+function giftSpark() { giftScene('spark', 'giftSnowflake'); }
+function giftSnowflake() { giftScene('snowflake', 'giftButterfly'); }
+function giftButterfly() {
+  giftScene('butterfly', 'chapter5');
+}
 
-  if(scene.type==='chapter') {
-    renderChapter(scene);
+function chapter5() {
+  chapterPage(
+    '5',
+    'Дерево желаний',
+    `<p>Вы выходите на большую площадь. В самом центре растёт необыкновенное дерево. Его ветви украшены огоньками, а на каждой ветке мерцает маленькая звезда.</p>
+     <p>Девочка говорит: «Это дерево хранит желания. Не те, которые нужно загадать правильно, а те, которые действительно живут внутри тебя. Сегодня можно не уменьшать их и не искать оправданий».</p>`,
+    'wishing_tree.JPG',
+    'wishScene'
+  );
+}
+
+function wishScene() {
+  page('wishing_tree.JPG', `
+    <div class="eyebrow">Твоё желание</div>
+    <h2>О чём ты мечтаешь?</h2>
+    <div class="story">
+      <p>Ты подходишь к дереву. Одна из звёздочек начинает светиться ярче остальных.</p>
+      <p>Девочка берёт тебя за руку и тихо говорит:</p>
+      <p class="gold">«Позволь себе мечтать о большем, даже если пока не знаешь, как этого достичь».</p>
+      <p>Не нужно сейчас продумывать весь путь. Не нужно доказывать, что желание разумное или удобное для других. Просто прислушайся к себе.</p>
+    </div>
+    <label>Какое желание ты хочешь доверить этому дереву?</label>
+    <textarea id="wish" placeholder="Напиши своё желание…">${escapeHTML(state.wish)}</textarea>
+    <label>А какой один маленький шаг ты могла бы сделать навстречу ему?</label>
+    <textarea id="firstStep" placeholder="Не весь путь, а только первый шаг…">${escapeHTML(state.firstStep)}</textarea>
+    <p class="small-note">Пусть этот шаг будет посильным и реальным. Даже маленькое движение имеет значение.</p>
+    ${button('Оставить желание на дереве', 'saveWish')}
+  `);
+}
+
+function saveWish() {
+  state.wish = document.getElementById('wish').value.trim();
+  state.firstStep = document.getElementById('firstStep').value.trim();
+  if (!state.wish) state.wish = 'жить ближе к своим настоящим желаниям';
+  if (!state.firstStep) state.firstStep = 'найти немного времени и внимания для себя';
+  chapterPage(
+    '6',
+    'Послание для тебя',
+    `<p>На ветвях дерева загораются огоньки. Один из них медленно опускается к твоим ладоням и превращается в маленькую карточку.</p>
+     <p>Девочка улыбается: «В этой колоде спрятаны послания. Не нужно выбирать долго. Просто посмотри на закрытые карточки и доверься той, к которой потянется рука».</p>
+     <p>Возможно, именно сейчас тебе важно услышать что-то особенное.</p>`,
+    'wishing_tree.JPG',
+    'chooseCard'
+  );
+}
+
+function chooseCard() {
+  page('christmas_square.JPG', `
+    <div class="eyebrow">Последняя часть путешествия</div>
+    <h2>Выбери своё послание</h2>
+    <div class="story center">
+      <p>Перед тобой двенадцать закрытых карточек. Ты не знаешь, что изображено на каждой из них.</p>
+      <p>Не пытайся угадать. Просто выбери одну — ту, которая первой привлекла твоё внимание.</p>
+    </div>
+    <div class="card-grid">
+      ${cards.map((card, i) => `
+        <button class="mac-card" data-card="${i}" aria-label="Выбрать карточку ${i + 1}">
+          <span>✦</span>
+        </button>
+      `).join('')}
+    </div>
+    <p class="small-note">Откроется только та карточка, которую ты выберешь.</p>
+  `);
+}
+
+function revealCard(index) {
+  if (state.chosenCard !== null) return;
+  state.chosenCard = index;
+  const card = cards[index];
+
+  page('christmas_square.JPG', `
+    <div class="eyebrow">Твоё послание</div>
+    <h2>Эта карточка выбрала тебя</h2>
+    <div class="revealed-card">
+      <img src="${card.file}" alt="${card.title}">
+      <div class="revealed-card-title">${card.title}</div>
+    </div>
+    <div class="story center"><p>${card.text}</p></div>
+    ${button('Прочитать письмо себе', 'finalLetter')}
+  `);
+}
+
+function makeLetter() {
+  const name = escapeHTML(state.girlName || 'Малышка');
+  const age = state.girlAge && state.girlAge !== 'Не знаю'
+    ? `, которой сейчас ${escapeHTML(state.girlAge)} лет`
+    : '';
+  const dream = escapeHTML(state.dream || 'чтобы в её жизни было больше радости');
+  const care = escapeHTML(state.care || 'быть к себе бережнее');
+  const joy = escapeHTML(state.joy || 'чаще замечать маленькие радости');
+  const wish = escapeHTML(state.wish || 'жить ближе к своим настоящим желаниям');
+  const step = escapeHTML(state.firstStep || 'найти время для себя');
+  const card = cards[state.chosenCard === null ? 0 : state.chosenCard];
+
+  return `Дорогая я!
+
+Сегодня я прошла удивительное путешествие и встретилась с той маленькой девочкой, которая всё это время жила внутри меня.
+
+Я назвала её ${name}${age}. Я снова вспомнила, что у неё есть свои мечты. Ей хочется: «${dream}».
+
+Я хочу, чтобы она знала: теперь я могу быть рядом. Я могу дать ей то, чего ей так не хватало, — ${care.toLowerCase()}. Мне не нужно ждать особенного дня, чтобы относиться к себе с теплом.
+
+Я вспомнила и о том, как важно для меня ${joy}. Я хочу возвращать это в свою жизнь не когда-нибудь, а постепенно, маленькими шагами.
+
+Есть и желание, которому я сегодня позволила стать чуть смелее: «${wish}».
+
+Я пока не обязана знать, как исполнить его целиком. Но я уже вижу свой первый шаг: ${step}.
+
+Моя карточка сегодня — «${card.title}». Пусть её послание напоминает мне о том, что я могу выбирать себя, слышать свои желания и создавать жизнь, в которой мне есть место.
+
+Я не должна изменить всё за один день. Мне достаточно не забывать о себе и снова и снова возвращаться к тому, что действительно важно.
+
+С нежностью,
+я.`;
+}
+
+function finalLetter() {
+  const letter = makeLetter();
+  page('wishing_tree.JPG', `
+    <div class="eyebrow">Твоё маленькое новогоднее чудо</div>
+    <h2>Письмо себе</h2>
+    <div class="story center">
+      <p>Девочка обнимает тебя. В её глазах больше нет ожидания — теперь она знает, что ты услышала её.</p>
+      <p>Она протягивает тебе письмо. Это не обещание стать идеальной и не список обязательств. Это слова, к которым можно возвращаться, когда захочется снова услышать себя.</p>
+    </div>
+    <div class="final-letter">${letter}</div>
+    <p class="center gold" style="margin-top:20px">Пусть в новом году у тебя будет больше места для себя.</p>
+    <p class="center">Твоё чудо не обязано быть громким. Иногда оно начинается с простого решения — больше себя не забывать.</p>
+    <p class="center gold" style="font-family:'Cormorant Garamond',serif;font-size:25px;margin-top:18px">С теплом, Диана ❤️</p>
+  `);
+}
+
+/* Переходы между сценами */
+const actions = {
+  intro,
+  chapter1,
+  journey,
+  chapter2,
+  meetGirl,
+  saveGirl,
+  chapter3: () => chapterPage('3', 'Лавка забытых радостей', 'Здесь ждут радости, которые ты когда-то отложила.', 'toyshop.JPG', 'shop'),
+  shop,
+  saveJoy,
+  chapter4: () => chapterPage('4', 'Пять волшебных подарков', 'В шкатулке спрятаны пять напоминаний о твоей внутренней силе и нежности.', 'christmas_square.JPG', 'giftHeart'),
+  giftHeart,
+  giftStar,
+  giftSpark,
+  giftSnowflake,
+  giftButterfly,
+  chapter5,
+  wishScene,
+  saveWish,
+  chooseCard,
+  finalLetter
+};
+
+document.addEventListener('click', function(event) {
+  const careButton = event.target.closest('[data-care]');
+  if (careButton) {
+    state.care = careButton.dataset.care;
+    document.querySelectorAll('[data-care]').forEach(el => {
+      el.classList.toggle('selected', el === careButton);
+    });
     return;
   }
 
-  const body=document.createElement('div');
-  body.appendChild(paragraph(scene.text || ''));
-
-  if(scene.image) {
-    const wrap=document.createElement('div');
-    wrap.className='gift-wrap';
-    const img=document.createElement('img');
-    img.src=scene.image;
-    img.alt='Волшебный подарок';
-    wrap.appendChild(img);
-    body.appendChild(wrap);
-    if(scene.imageGift) {
-      img.addEventListener('load',()=>removeGreenBackground(img),{once:true});
-    }
+  const cardButton = event.target.closest('[data-card]');
+  if (cardButton) {
+    revealCard(Number(cardButton.dataset.card));
+    return;
   }
 
-  const box=panel('',body);
+  const actionButton = event.target.closest('[data-action]');
+  if (!actionButton) return;
 
-  if(scene.type==='cards') {
-    renderCards(box);
-  } else if(scene.type==='chosenCard') {
-    renderChosenCard(box);
-  } else if(scene.type==='final') {
-    renderFinal(box);
-  } else if(scene.input) {
-    saveInput(scene,box);
-  } else if(scene.choices) {
-    addChoices(scene,box);
-  } else if(scene.action==='reveal') {
-    box.appendChild(button('Открыть подарок ✨',()=>{
-      giftRevealed=true;
-      next();
-    }));
-  } else {
-    addNext(box);
+  const action = actionButton.dataset.action;
+
+  if (action === 'openGift') {
+    revealGift(actionButton.dataset.gift, actionButton.dataset.next);
+    return;
   }
 
-  screen.appendChild(box);
-}
+  if (actions[action]) actions[action]();
+});
 
-renderCover();
+/* Запуск */
+cover();
 </script>
 </body>
 </html>
