@@ -3,748 +3,245 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#542b40">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#183c35">
 <title>Маленькое новогоднее чудо</title>
 <style>
-:root {
-  --wine:#66364d;
-  --gold:#d9b77a;
-  --cream:#fff8ef;
-  --pink:#f6e6e5;
-  --text:#49343b;
-}
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Georgia,'Times New Roman',serif;
-  color:var(--text);
-  background:#402c3a;
-}
+html,body{margin:0;min-height:100%;font-family:Georgia,serif;color:#34483d}
+body{background:#183c35}
 button,input,textarea{font:inherit}
-#app{
-  min-height:100svh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  padding:12px;
-}
+#app{min-height:100svh}
 .scene{
-  position:relative;
-  width:100%;
-  max-width:650px;
-  min-height:min(850px,96svh);
-  border-radius:22px;
-  overflow:hidden;
-  background:var(--cream);
-  box-shadow:0 12px 45px #160b1644;
-  display:flex;
-  flex-direction:column;
+ min-height:100svh;width:100%;padding:22px 15px;
+ display:flex;align-items:center;justify-content:center;
+ position:relative;background-size:cover;background-position:center;
+ background-repeat:no-repeat;overflow:hidden
 }
-.scene-bg{
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center;
-  z-index:0;
+.scene:before{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(180deg,rgba(12,35,29,.08),rgba(12,35,29,.25))
 }
-.scene-bg:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg,#fff8efaa,#fff8efdf 48%,#fff8efed);
+.cover{padding:0;align-items:flex-end}
+.cover:before{background:linear-gradient(180deg,transparent 25%,rgba(10,25,20,.12) 50%,rgba(10,25,20,.72) 100%)}
+.cover-content{position:relative;z-index:1;width:100%;text-align:center;padding:25px 18px max(40px,env(safe-area-inset-bottom));color:white}
+.cover h1{font-size:clamp(36px,9vw,55px);line-height:1.05;margin:0 0 14px;color:#fff8e9;text-shadow:0 2px 15px #172d24;font-weight:normal}
+.cover p{font-size:17px;line-height:1.5;margin:0 auto 24px;max-width:420px;text-shadow:0 2px 8px #172d24}
+.panel{
+ position:relative;z-index:1;width:min(100%,620px);
+ max-height:calc(100svh - 36px);overflow-y:auto;
+ -webkit-overflow-scrolling:touch;padding:clamp(22px,5vw,34px);
+ border:1px solid rgba(255,255,255,.75);border-radius:25px;
+ background:rgba(255,249,239,.94);
+ box-shadow:0 18px 60px rgba(0,0,0,.25);text-align:center;
+ backdrop-filter:blur(7px)
 }
-.content{
-  position:relative;
-  z-index:1;
-  flex:1;
-  padding:24px 20px 22px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-}
-.topline{
-  font:12px Arial,sans-serif;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:#89616c;
-  margin:0 0 12px;
-}
-h1{
-  color:var(--wine);
-  font-size:clamp(27px,7vw,39px);
-  line-height:1.15;
-  margin:5px 0 12px;
-  font-weight:normal;
-}
-h2{
-  color:var(--wine);
-  font-size:24px;
-  font-weight:normal;
-  margin:8px 0 12px;
-}
-p{
-  font-size:17px;
-  line-height:1.55;
-  margin:8px 0;
-}
-.small{font-size:14px;color:#876d70}
-.story{
-  width:100%;
-  max-width:520px;
-  background:#fffaf2e8;
-  border:1px solid #ead8c8;
-  border-radius:18px;
-  padding:16px;
-  margin:12px 0;
-  box-shadow:0 5px 20px #603b3010;
-}
-.girl{
-  width:min(190px,55%);
-  max-height:245px;
-  object-fit:contain;
-  margin:5px auto 0;
-  filter:drop-shadow(0 6px 8px #49343b22);
-}
-.gift{
-  width:min(190px,65%);
-  max-height:190px;
-  object-fit:contain;
-  margin:12px auto;
-}
-.main-btn,.choice,.secondary-btn{
-  border:0;
-  border-radius:30px;
-  padding:14px 20px;
-  cursor:pointer;
-  transition:.2s;
-}
-.main-btn{
-  background:var(--wine);
-  color:white;
-  width:100%;
-  max-width:420px;
-  margin-top:16px;
-  font-size:17px;
-  box-shadow:0 5px 15px #66364d30;
-}
-.main-btn:active,.choice:active{transform:scale(.98)}
-.secondary-btn{
-  background:#f0e2d9;
-  color:var(--wine);
-  margin-top:10px;
-}
-.options{
-  display:flex;
-  flex-direction:column;
-  gap:9px;
-  width:100%;
-  max-width:500px;
-  margin:14px 0;
-}
-.choice{
-  width:100%;
-  text-align:left;
-  color:var(--text);
-  background:#fffaf5;
-  border:1px solid #e7d4c8;
-  font-size:16px;
-  line-height:1.35;
-}
-.choice.selected{
-  background:#ead8dc;
-  border:2px solid #9a6577;
-  color:#542b40;
-}
-.field{
-  width:100%;
-  max-width:500px;
-  padding:14px;
-  border-radius:13px;
-  border:1px solid #d9c4b9;
-  background:#fffdf9;
-  color:var(--text);
-  font-size:16px;
-  margin:8px 0;
-  outline-color:#9a6577;
-}
-textarea.field{min-height:90px;resize:vertical}
-.progress{
-  width:100%;
-  height:5px;
-  background:#eadbd4;
-  border-radius:10px;
-  margin:0 0 15px;
-  overflow:hidden;
-}
-.progress span{
-  display:block;
-  height:100%;
-  background:#b78a8a;
-  transition:width .3s;
-}
-.footer{
-  font:12px Arial,sans-serif;
-  color:#9a7b7c;
-  margin-top:auto;
-  padding-top:16px;
-}
-.card-image{
-  width:min(250px,75%);
-  border-radius:15px;
-  box-shadow:0 8px 25px #402c3a33;
-  margin:12px auto;
-}
-.letter{
-  text-align:left;
-  line-height:1.8;
-  white-space:pre-line;
-  padding:20px;
-  border:1px solid #e5d0bb;
-  background:#fffaf0;
-  border-radius:15px;
-  width:100%;
-  font-size:17px;
-}
-.wishes{
-  text-align:left;
-  width:100%;
-  background:#fffaf2;
-  border-radius:15px;
-  padding:16px;
-  line-height:1.7;
-  margin:12px 0;
-}
-.wishes b{color:var(--wine)}
-@media(max-width:480px){
-  #app{padding:0}
-  .scene{border-radius:0;min-height:100svh}
-  .content{padding:20px 17px}
-  p{font-size:16px}
-}
-@media print{
-  body{background:white}
-  #app{padding:0}
-  .scene{box-shadow:none;border:0;max-width:none;min-height:0}
-  .scene-bg,.girl,.main-btn,.secondary-btn,.footer,.progress{display:none!important}
-  .content{padding:20px}
-}
+.chapter{color:#9a7841;text-transform:uppercase;letter-spacing:2px;font:12px Arial,sans-serif;margin-bottom:12px}
+h2{color:#315747;font-size:clamp(25px,6vw,34px);line-height:1.2;margin:0 0 17px;font-weight:normal}
+.story{font-size:18px;line-height:1.6;text-align:left;white-space:pre-line}
+.primary{display:inline-block;padding:15px 27px;border-radius:30px;background:linear-gradient(135deg,#d9bd7d,#b58b4d);color:white;font: bold 16px Arial,sans-serif;box-shadow:0 5px 18px rgba(91,62,26,.22)}
+.secondary{padding:12px 20px;border-radius:25px;color:#526b5b;background:#e9e3d5;font:14px Arial,sans-serif}
+button{border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:24px}
+.field{width:100%;padding:15px 16px;border:1px solid #d8cbb2;border-radius:14px;background:rgba(255,255,255,.85);color:#34443b;font-size:17px;outline:none;margin-top:14px}
+.field:focus{border-color:#b9965c}
+textarea.field{min-height:105px;resize:vertical;line-height:1.5}
+.options{display:grid;gap:10px;margin-top:20px}
+.option{width:100%;padding:14px 16px;border:1px solid #dfd2bc;border-radius:15px;background:rgba(255,255,255,.78);color:#425649;text-align:left;font-size:16px;line-height:1.4}
+.option.selected{border:2px solid #b28b50;background:#f6ecd8}
+.progress-wrap{position:absolute;z-index:2;top:max(12px,env(safe-area-inset-top));left:18px;right:18px;height:4px;background:rgba(255,255,255,.4);border-radius:5px}
+.progress{height:100%;border-radius:5px;background:#e6c77e;transition:width .3s}
+.character{display:block;max-width:155px;max-height:175px;object-fit:contain;margin:0 auto 15px;filter:drop-shadow(0 7px 12px rgba(0,0,0,.12))}
+.gift-canvas{display:block;width:min(65vw,230px);height:190px;object-fit:contain;margin:15px auto;filter:drop-shadow(0 0 20px rgba(232,194,106,.7))}
+.deck{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}
+.card-choice{padding:5px;border:2px solid transparent;border-radius:13px;background:#f0e6d4;overflow:hidden}
+.card-choice.selected{border-color:#b28b50}
+.card-choice img{width:100%;display:block;aspect-ratio:3/4;object-fit:cover;border-radius:8px}
+.card-choice span{display:block;font:12px Arial,sans-serif;padding:6px 2px 3px;color:#526b5b}
+.final-letter{padding:18px;background:rgba(255,255,255,.7);border-radius:16px;text-align:left;font-size:16px;line-height:1.65;white-space:pre-line;margin-top:18px}
+.small-note{font-size:13px;color:#81745f;line-height:1.5;margin-top:12px}
+@media(max-height:700px){.scene{padding:12px}.panel{max-height:calc(100svh - 24px);padding:19px}.story{font-size:16px;line-height:1.48}.character{max-height:115px}}
+@media print{body{background:white}.scene{background:white!important;min-height:auto;padding:0}.scene:before,.progress-wrap,.actions{display:none!important}.panel{max-height:none;box-shadow:none;border:0;background:white}}
 </style>
 </head>
 <body>
 <div id="app"></div>
-
 <script>
-const A = {
-  cover:"cover.PNG",
-  girl:"girl.PNG",
-  room:"room.JPG",
-  village:"village.JPG",
-  cottage:"cottage.JPG",
-  toyshop:"toyshop.JPG",
-  inside:"toyshop_inside.JPG",
-  square:"christmas_square.JPG",
-  tree:"wishing_tree.JPG",
-  star:"star.JPG",
-  heart:"heart.JPG",
-  butterfly:"butterfly.JPG",
-  spark:"spark.JPG",
-  snowflake:"snowflake.JPG"
+const app=document.getElementById("app");
+const bg={
+ village:"village.JPG",cottage:"cottage.JPG",room:"room.JPG",
+ shop:"toyshop.JPG",inside:"toyshop_inside.JPG",
+ square:"christmas_square.JPG",tree:"wishing_tree.JPG"
 };
-
-const macCards = [
- {img:"card_dream.JPG",title:"Мне можно мечтать",message:"Твои мечты не обязаны быть маленькими и удобными для других. Ты можешь хотеть большего, нового и необычного.",question:"О чём ты давно мечтаешь, но пока не разрешала себе даже захотеть?",action:"Запиши одну свою мечту так, будто ты уже разрешила ей существовать."},
- {img:"card_time_for_me.JPG",title:"Время для себя",message:"Отдых — не награда за выполненные дела. Ты имеешь право на время для себя просто потому, что ты есть.",question:"Когда ты в последний раз делала что-то только потому, что тебе этого хотелось?",action:"Выдели себе 30 минут только для себя, без чувства вины."},
- {img:"card_small_joy.JPG",title:"Маленькая радость",message:"Счастье часто прячется в простых вещах. Не обязательно ждать большого события, чтобы почувствовать радость.",question:"Какая маленькая вещь может порадовать тебя уже сегодня?",action:"Подари себе маленькое удовольствие просто так."},
- {img:"card_care.JPG",title:"Я достойна заботы",message:"Тебе не нужно заслуживать заботу идеальностью, достижениями или бесконечной помощью другим.",question:"Какой заботы тебе сейчас хочется от окружающих?",action:"Позволь кому-то помочь тебе или попроси о помощи прямо."},
- {img:"card_my_wish.JPG",title:"Моё желание",message:"Твои желания имеют значение. Ты можешь выбирать не только то, что нужно другим, но и то, что хочется тебе.",question:"Чего бы ты захотела, если бы не нужно было никому ничего доказывать?",action:"Сделай один небольшой шаг навстречу своему желанию."},
- {img:"card_shine.JPG",title:"Смелость сиять",message:"Тебе не нужно становиться незаметной, чтобы другим было комфортно. В твоём голосе, талантах и идеях есть ценность.",question:"В какой ситуации ты чаще всего уменьшаешь себя?",action:"Сделай один небольшой смелый шаг и позволь себе быть заметной."},
- {img:"card_dance.JPG",title:"Танец жизни",message:"Жизнь состоит не только из задач и обязанностей. В ней есть место движению, игре, приключениям и лёгкости.",question:"Чего тебе сейчас не хватает: игры, движения, приключений или лёгкости?",action:"Включи любимую музыку и немного потанцуй."},
- {img:"card_new_path.JPG",title:"Новый путь",message:"Не обязательно видеть всю дорогу, чтобы начать. Иногда достаточно одного маленького шага.",question:"В какой сфере жизни тебе хочется перемен?",action:"Запиши первый шаг, который ты можешь сделать."},
- {img:"card_inner_warmth.JPG",title:"Внутреннее тепло",message:"Внутри тебя может быть место, где можно остановиться, выдохнуть и почувствовать опору.",question:"Что помогает тебе почувствовать спокойствие и безопасность?",action:"Создай для себя маленький уютный ритуал."},
- {img:"card_choose_myself.JPG",title:"Я выбираю себя",message:"Выбирать себя — не значит отвергать других. Это значит замечать и свои потребности тоже.",question:"Где тебе сейчас особенно важно поставить себя на первое место?",action:"Прежде чем согласиться на что-то, прислушайся к себе."},
- {img:"card_wonders.JPG",title:"Время чудес",message:"В жизни всегда может появиться что-то неожиданное. Оставь немного места для удивления и новых возможностей.",question:"Какое чудо тебе хотелось бы пригласить в свою жизнь?",action:"Сделай сегодня что-то новое, пусть даже совсем маленькое."},
- {img:"card_new_story.JPG",title:"Моя новая история",message:"Ты можешь менять решения, выбирать другой путь и начинать новую главу своей жизни.",question:"Какую главу своей истории ты хотела бы начать?",action:"Придумай название своей новой главы и запиши его."}
+const cards=[
+ ["card_care.JPG","Забота"],
+ ["card_choose_myself.JPG","Выбрать себя"],
+ ["card_dance.JPG","Танец"],
+ ["card_dream.JPG","Мечта"],
+ ["card_inner_warmth.JPG","Внутреннее тепло"],
+ ["card_my_wish.JPG","Моё желание"],
+ ["card_new_path.JPG","Новый путь"],
+ ["card_new_story.JPG","Новая история"],
+ ["card_shine.JPG","Сияние"],
+ ["card_small_joy.JPG","Маленькая радость"],
+ ["card_time_for_me.JPG","Время для себя"],
+ ["card_wonders.JPG","Чудеса"]
 ];
-
-const S = [];
-function add(ch,title,text,bg,type="text",options=[],extra={}) {
- S.push({ch,title,text,bg,type,options,...extra});
+const steps=[
+{bg:"village",chapter:"Глава 1. Начало сказки",title:"Городок, в котором живёт чудо",text:"Однажды, в преддверии Нового года, ты оказалась в маленьком заснеженном городке. В его окнах мерцали огоньки, с крыш свисали сосульки, а воздух пах хвоей и мандаринами.\n\nГоворили, что в этом городе каждый может встретить маленькое чудо. Но оно открывается тому, кто готов хотя бы ненадолго остановиться и прислушаться к себе.",button:"Продолжить путешествие"},
+{bg:"cottage",chapter:"Глава 1. Начало сказки",title:"Домик на краю улицы",text:"На тихой улочке ты заметила уютный домик. В окне горел тёплый свет, а у двери лежала маленькая коробочка с запиской:\n\n«Здесь тебя ждёт та, которую ты, возможно, давно не навещала. Она всё ещё верит в чудеса и очень хочет с тобой поговорить».\n\nТы открываешь дверь…",button:"Войти в домик"},
+{bg:"room",chapter:"Глава 1. Знакомство",title:"Встреча с маленькой девочкой",character:true,text:"В комнате у ёлки сидела маленькая девочка. Она подняла глаза и улыбнулась тебе. В этой девочке было что-то удивительно знакомое.\n\n«Я так долго тебя ждала. Как тебя зовут? А как зовут тебя сейчас, взрослую?»",type:"name",key:"girlName",placeholder:"Напиши своё имя"},
+{bg:"room",chapter:"Глава 1. Знакомство",title:"О чём мечтает девочка?",text:"Девочка немного смутилась, а потом спросила:\n\n«А можно я расскажу тебе, чего мне иногда так не хватает?»\n\nВыбери то, что откликается тебе. Можно выбрать несколько вариантов.",type:"multi",key:"needs",options:["Чтобы меня обнимали и поддерживали","Чтобы меня слушали и слышали","Чтобы мне разрешали ошибаться","Чтобы у меня было время играть и радоваться","Чтобы меня хвалили и замечали","Чтобы я могла быть собой","Чтобы обо мне тоже заботились"]},
+{bg:"room",chapter:"Глава 2. Самый тёплый подарок",title:"То, что хочется услышать",text:"«Знаешь, — тихо сказала девочка, — иногда мне так нужны добрые слова. Такие, от которых внутри становится спокойно и тепло».\n\nКакие слова ты хотела бы сказать ей сейчас?",type:"multi",key:"kindWords",options:["Я рядом. Ты не одна.","Ты хорошая просто потому, что ты есть.","Я вижу тебя и слышу.","Тебе не нужно быть идеальной.","Ты можешь ошибаться, и я всё равно тебя люблю.","Я горжусь тобой."]},
+{bg:"room",chapter:"Глава 2. Самый тёплый подарок",title:"Твоё личное послание",text:"А теперь напиши ей несколько слов от себя. Не нужно подбирать красивые фразы. Пусть это будут именно твои слова.",type:"textarea",key:"message",placeholder:"Моя маленькая, я хочу сказать тебе..."},
+{bg:"room",chapter:"Глава 2. Самый тёплый подарок",title:"Обещание себе",text:"Девочка взяла тебя за руку и спросила:\n\n«А ты будешь иногда вспоминать обо мне? Что ты могла бы пообещать мне — не из чувства долга, а от всего сердца?»",type:"choice",key:"promise",options:["Я буду чаще прислушиваться к себе.","Я буду разрешать себе отдыхать.","Я буду замечать свои маленькие радости.","Я буду относиться к себе бережнее.","Я буду поддерживать себя, даже если что-то не получится."]},
+{bg:"room",chapter:"Глава 2. Самый тёплый подарок",title:"Сердечко тепла",text:"Девочка улыбнулась. В её ладонях появилось маленькое светящееся сердечко.\n\n«Это сердечко тепла. Пусть оно напоминает тебе: забота о себе — не награда за то, что ты всё успела. Ты достойна её уже сейчас».\n\nПрими этот подарок.",type:"gift",gift:"heart.JPG",giftName:"Сердечко тепла",button:"Принять подарок"},
+{bg:"shop",chapter:"Глава 3. Лавка забытых радостей",title:"Лавка забытых радостей",text:"Попрощавшись с девочкой, ты отправилась дальше. На площади ты увидела маленькую лавку с необычной вывеской: «Здесь хранятся радости, о которых взрослые иногда забывают».\n\nВнутри было много коробочек, игрушек и удивительных мелочей. Хозяйка лавки предложила тебе выбрать то, что хочется вернуть в свою жизнь.",button:"Зайти в лавку"},
+{bg:"inside",chapter:"Глава 3. Лавка забытых радостей",title:"Что хочется вернуть?",text:"Посмотри на список и выбери то, чему хочется снова дать место в своей жизни. Можно отметить несколько пунктов.",type:"multi",key:"joys",options:["Спонтанность и лёгкость","Творчество и создание чего-то своего","Игру и веселье","Время только для себя","Путешествия и новые впечатления","Тёплое общение","Умение мечтать и ждать хорошего","Удовольствие от простых вещей"]},
+{bg:"inside",chapter:"Глава 3. Лавка забытых радостей",title:"Маленький шаг к радости",text:"А какую одну маленькую радость ты можешь вернуть себе уже в ближайшие дни? Не глобальное обещание, а что-то простое и настоящее.",type:"textarea",key:"smallJoy",placeholder:"В ближайшие дни я порадую себя..."},
+{bg:"inside",chapter:"Глава 4. Волшебный подарок",title:"Звёздочка встречи",text:"Хозяйка лавки достала из бархатной шкатулки маленькую звёздочку.\n\n«Она напоминает о встрече с собой. Когда вокруг много дел и забот, посмотри на неё и вспомни: у тебя всегда есть возможность вернуться к себе — к своим желаниям, чувствам и мечтам».\n\nЭто твоя звёздочка встречи.",type:"gift",gift:"star.JPG",giftName:"Звёздочка встречи",button:"Забрать звёздочку"},
+{bg:"square",chapter:"Глава 5. Площадь желаний",title:"Площадь новогодних огней",text:"Ты вышла на праздничную площадь. Повсюду звучала музыка, дети лепили снеговиков, а взрослые загадывали желания.\n\nВ центре площади стояло необычное дерево. Говорили, что оно умеет хранить самые искренние желания и помогает человеку не забывать о них.",button:"Подойти к дереву"},
+{bg:"tree",chapter:"Глава 5. Дерево желаний",title:"Твоё желание",text:"Ты подошла к дереву и взяла в руки маленькую золотую ленточку.\n\nКакое желание тебе хочется доверить этому дереву? Не то, что от тебя ждут другие, а то, чего по-настоящему хочется именно тебе.",type:"textarea",key:"wish",placeholder:"В новом году я хочу..."},
+{bg:"tree",chapter:"Глава 5. Дерево желаний",title:"Что поможет приблизиться к нему?",text:"Любое большое желание начинается с маленького шага. Какой первый шаг ты могла бы сделать навстречу своему желанию?",type:"textarea",key:"firstStep",placeholder:"Мой первый маленький шаг..."},
+{bg:"square",chapter:"Глава 6. Твоя волшебная карта",title:"Выбери свою МАК-карту",text:"Перед тобой двенадцать волшебных карточек. Не пытайся угадать правильную. Просто выбери ту, которая сейчас притягивает взгляд.\n\nВозможно, именно в ней найдётся подсказка для тебя.",type:"cards",key:"macCard"},
+{bg:"square",chapter:"Глава 6. Твоя волшебная карта",title:"О чём говорит твоя карта?",text:"Посмотри на выбранную карту. Какие чувства или мысли она вызывает? Что в ней откликается именно тебе?",type:"textarea",key:"macReflection",placeholder:"Когда я смотрю на эту карту, я чувствую..."},
+{bg:"tree",chapter:"Финал",title:"Маленькое новогоднее чудо",text:"Ночь стала тихой. На дереве зажглись огоньки, а в небе появилась первая звезда.\n\nТы оглянулась и поняла: чудо не обязательно должно быть громким или невероятным. Иногда оно начинается с простого решения — услышать себя, заметить свои желания и отнестись к себе с теплом.\n\nТы забираешь с собой свои подарки, слова и маленькие обещания. И пусть в новом году у тебя будет больше места для себя настоящей.",button:"Прочитать моё письмо"}
+];
+let index=-1,selected=[];
+let data={girlName:"",needs:[],kindWords:[],message:"",promise:"",joys:[],smallJoy:"",wish:"",firstStep:"",macCard:"",macReflection:""};
+let promiseDraft="";
+function esc(v){return String(v||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function cover(){
+ app.innerHTML=`<section class="scene cover" style="background-image:url('cover.PNG')"><div class="cover-content"><h1>Маленькое<br>новогоднее чудо</h1><p>Сказочное путешествие к себе, своим желаниям и маленькой девочке внутри</p><button class="primary" onclick="start()">Начать путешествие</button></div></section>`;
 }
-
-add(0,"Маленькое новогоднее чудо",
- "Иногда самые важные чудеса начинаются с маленькой встречи. С той, в которой ты наконец замечаешь себя.",
- "cover","start");
-add(1,"Домик, в котором тебя ждали",
- "Здравствуй, дорогая! Сегодня тебя ждёт маленькое путешествие. Здесь не нужно быть правильной, сильной или идеальной. Можно просто быть собой. Впиши своё имя, чтобы эта сказка стала твоей.",
- "village","name");
-add(1,"За дверью тебя ждали",
- "Ты подходишь к маленькому домику. В окне горит тёплый свет. Дверь тихонько открывается… На пороге стоит девочка с кудрявыми волосами и большим плюшевым мишкой. Она немного смущается, но глаза её сияют любопытством.",
- "cottage","text");
-add(1,"Давайте познакомимся",
- "«Привет! Я так рада, что ты пришла! А как тебя зовут? А меня можешь назвать так, как тебе захочется. И знаешь… сколько мне лет — тоже решаешь ты».",
- "room","girlname");
-add(1,"О чём мечтает маленькая девочка?",
- "«Мне нравится, когда меня слушают, когда со мной играют, когда можно смеяться и не бояться ошибиться. А что тебе больше всего хочется подарить мне сегодня?»",
- "room","multi",[
- "Тёплые объятия и ощущение, что я не одна",
- "Внимание и возможность быть услышанной",
- "Защиту и надёжную поддержку",
- "Разрешение быть собой и ошибаться",
- "Игру, смех и веселье",
- "Заботу и внимание к моим желаниям",
- "Добрые слова и поддержку"
- ],{field:"Я хочу подарить ей…"});
-add(1,"Слова, которые хочется услышать",
- "Представь, что ты можешь сказать маленькой девочке самые важные слова. Что ей особенно нужно услышать?",
- "room","multi",[
- "Я люблю тебя такой, какая ты есть",
- "Тебе не нужно быть идеальной",
- "Ты можешь ошибаться, и я всё равно буду рядом",
- "Твои желания важны",
- "Тебе можно отдыхать, играть и радоваться",
- "Я буду учиться слышать тебя и заботиться о тебе"
- ],{field:"А ещё я хочу сказать ей…"});
-add(1,"Маленькое обещание",
- "Не обязательство и не строгий план. Просто доброе намерение — как ты хотела бы относиться к себе дальше?",
- "room","single",[
- "Замечать свои желания",
- "Не ругать себя за ошибки",
- "Разрешать себе отдых и радость",
- "Заботиться о себе, не дожидаясь идеального момента",
- "Играть, мечтать и пробовать новое"
- ],{field:"Моё доброе обещание…"});
-add(1,"Первый подарок — звёздочка",
- "Девочка достаёт из кармана маленькую светящуюся звёздочку. «Это тебе! Пусть она напоминает: ты тоже заслуживаешь тепла, внимания и маленьких чудес».",
- "room","gift",[],{gift:"star",giftTitle:"Звёздочка надежды"});
-add(2,"Самый тёплый подарок",
- "Девочка ведёт тебя в уютную комнату. Здесь потрескивает огонь, пахнет какао, а рядом лежит её любимый мишка. «Знаешь, иногда мне тоже хочется, чтобы обо мне позаботились…»",
- "room","text");
-add(2,"Что ей сейчас нужно?",
- "Представь, что ты можешь подарить ей то, чего ей не хватает. Выбери всё, что откликается.",
- "room","multi",[
- "Объятия и ощущение, что я не одна",
- "Чтобы меня слушали и замечали",
- "Защиту и надёжность",
- "Возможность быть собой",
- "Игру и смех",
- "Заботу и внимание",
- "Добрые слова"
- ],{field:"Я хочу подарить ей…"});
-add(2,"Слова любви",
- "Выбери слова, которые хочется оставить с ней надолго. Возможно, какие-то из них важны и тебе самой.",
- "room","multi",[
- "Я люблю тебя такой, какая ты есть",
- "Тебе не нужно быть идеальной",
- "Ты можешь ошибаться, я всё равно рядом",
- "Твои желания важны",
- "Тебе можно отдыхать и радоваться",
- "Я буду слышать тебя и заботиться о тебе"
- ],{field:"Мои личные слова для неё…"});
-add(2,"Наше маленькое обещание",
- "Пусть это будет не строгий договор, а нежное напоминание о том, что ты хочешь дать себе.",
- "room","single",[
- "Замечать свои желания",
- "Не ругать себя за ошибки",
- "Разрешать себе отдыхать",
- "Заботиться о себе",
- "Чаще играть и мечтать"
- ],{field:"Я обещаю себе…"});
-add(2,"Сердечко тепла",
- "Из красивой коробочки появляется светящееся сердечко. «Это сердечко тепла. Помни: взрослым тоже можно быть нежными, уставать, просить о помощи, отдыхать и принимать любовь».",
- "room","gift",[],{gift:"heart",giftTitle:"Сердечко тепла"});
-add(3,"Лавка забытых радостей",
- "«А теперь пойдём играть!» — девочка берёт тебя за руку. Вы подходите к удивительной лавке игрушек. «Здесь хранятся радости, которые взрослые иногда забывают. Только осторожно: ты можешь так увлечься, что не захочешь уходить!»",
- "toyshop","text");
-add(3,"Что приносит тебе радость?",
- "Вспомни, что заставляет тебя улыбаться, чувствовать интерес и удовольствие. Можно выбрать несколько вариантов.",
- "inside","multi",[
- "Создавать, рисовать, лепить, мастерить",
- "Играть, дурачиться и смеяться",
- "Танцевать и двигаться",
- "Гулять, путешествовать, открывать новые места",
- "Красиво одеваться для себя",
- "Покупать себе маленькие подарки",
- "Побыть одной и насладиться временем",
- "Пробовать новое",
- "Мечтать без ограничений"
- ],{field:"Мне хочется вернуть в свою жизнь…"});
-add(3,"Секретная полочка",
- "На одной полочке написано: «Радости, которые ждут своего часа». Девочка спрашивает: «А что ты давно хочешь попробовать, но всё откладываешь?»",
- "inside","multi",[
- "Научиться чему-то новому",
- "Начать творческий проект",
- "Съездить в небольшое путешествие",
- "Записаться на танцы",
- "Купить себе что-то красивое",
- "Найти новое увлечение",
- "Чаще встречаться с друзьями",
- "Выделить время только для себя"
- ],{field:"Я давно хочу…",note:"«Ух ты! А почему мы ещё этого не сделали? Может быть, пора перестать ждать особенного момента? Иногда чудеса начинаются с маленького „а почему бы и нет?“»"});
-add(3,"Выбираем маленькую радость",
- "Не нужно менять всю жизнь за один день. Выбери одну маленькую радость, которую ты подаришь себе в ближайшие семь дней.",
- "inside","single",[
- "Купить себе что-нибудь приятное",
- "Устроить вечер отдыха без чувства вины",
- "Потанцевать под любимую музыку",
- "Погулять в красивом месте",
- "Заняться творчеством",
- "Встретиться с близким человеком",
- "Попробовать что-то новое",
- "Провести час только для себя"
- ],{field:"На этой неделе я хочу…"});
-add(3,"Бабочка радости",
- "Из лавки вылетает золотая бабочка. Она кружится рядом и садится на ладонь девочки. «Это бабочка радости. Пусть она напоминает тебе, что удовольствие, любопытство и игра — тоже важная часть жизни».",
- "inside","gift",[],{gift:"butterfly",giftTitle:"Бабочка радости"});
-add(4,"Площадь волшебных огней",
- "Вы выходите на праздничную площадь. Тысячи огоньков мерцают вокруг. Девочка кружится и смеётся: «Взрослые иногда забывают, что можно просто радоваться! Давай немного потанцуем?»",
- "square","text");
-add(4,"Что сейчас чувствует твоё тело?",
- "Прежде чем начать, прислушайся к себе. Ничего не нужно менять или заставлять себя делать.",
- "square","multi",[
- "Хочется двигаться и веселиться",
- "Я устала, но хочу немного проснуться",
- "Мне неловко проявлять себя",
- "Есть напряжение, хочется расслабиться",
- "Мне хочется просто смотреть на огоньки"
- ],{field:"А ещё сейчас я чувствую…"});
-add(4,"Танец моей радости",
- "Почувствуй стопы на поверхности. Мягко пошевели плечами. Потянись руками вверх. Встряхни кисти, руки и плечи. Включи любимую музыку. Позволь телу двигаться так, как ему хочется. Можно танцевать сидя, совсем немного или просто наблюдать. Остановись, когда захочешь.",
- "square","dance");
-add(4,"Как ты сейчас?",
- "После движения снова прислушайся к себе. Не существует правильного результата. Любое ощущение подходит.",
- "square","single",[
- "Появилось больше энергии",
- "Стало легче и свободнее",
- "Появилась улыбка и радость",
- "Я немного успокоилась",
- "Ничего не изменилось, но мне понравилось попробовать"
- ],{field:"Моё тело сейчас…"});
-add(4,"Искорка жизни",
- "Девочка ловит маленькую золотую искорку. «Она для тебя! Пусть напоминает, что в твоей жизни есть место движению, энергии и радости. И тебе не нужно ждать разрешения, чтобы радоваться».",
- "square","gift",[],{gift:"spark",giftTitle:"Искорка жизни"});
-add(5,"Дерево желаний",
- "Перед вами появляется огромное дерево, усыпанное огоньками. Девочка смотрит на тебя: «Знаешь, желания должны быть твоими. Не такими, какими их хотят видеть другие. А чего на самом деле хочется тебе?»",
- "tree","text");
-add(5,"Первое желание: как ты хочешь себя чувствовать?",
- "Представь наступающий год. Какие чувства ты хотела бы чаще испытывать?",
- "tree","multi",[
- "Спокойствие и уверенность",
- "Любовь и ощущение желанности",
- "Свободу и независимость",
- "Счастье и наполненность",
- "Смелость и проявленность",
- "Лёгкость и радость",
- "Уверенность в будущем",
- "Ощущение собственной ценности"
- ],{field:"В новом году я хочу чаще чувствовать себя…",saveAs:"wish1"});
-add(5,"Второе желание: что ты хочешь попробовать?",
- "А теперь представь, что в новом году у тебя появится возможность попробовать что-то новое. Что это будет?",
- "tree","multi",[
- "Начать своё дело или проект",
- "Путешествовать",
- "Учиться новому",
- "Заниматься творчеством",
- "Больше отдыхать и заботиться о себе",
- "Стать заметнее и проявленнее",
- "Улучшить отношения",
- "Увеличить доход",
- "Добавить удовольствий в жизнь",
- "Попробовать то, чего раньше боялась"
- ],{field:"В новом году я хочу попробовать…",saveAs:"wish2"});
-add(5,"Третье желание: что ты приглашаешь в свою жизнь?",
- "Представь, что перед тобой открывается дверь в новый год. Что ты хотела бы впустить в свою жизнь?",
- "tree","multi",[
- "Любовь и близость",
- "Деньги и новые возможности",
- "Успех и признание",
- "Заботу и поддержку",
- "Впечатления и приключения",
- "Гармонию и внутреннюю опору",
- "Свободу выбирать себя",
- "Радость и наполненность"
- ],{field:"Я хочу впустить в свою жизнь…",saveAs:"wish3"});
-add(5,"Твои три желания",
- "Посмотри на то, что ты выбрала. Это не список обязательств. Это маленькие ориентиры, которые помогают помнить о том, чего хочется именно тебе.",
- "tree","wishes");
-add(5,"Маленький шаг навстречу",
- "Какой небольшой шаг ты могла бы сделать уже в ближайшие семь дней?",
- "tree","single",[
- "Выделить время для себя",
- "Сделать первый шаг к своей мечте",
- "Попросить о помощи",
- "Разрешить себе отдохнуть",
- "Подарить себе удовольствие",
- "Начать учиться чему-то новому",
- "Сделать шаг к своему желанию",
- "Пока просто наблюдать за своими желаниями"
- ],{field:"Мой маленький шаг будет таким…",saveAs:"promise"});
-add(5,"Снежинка желаний",
- "На ладонь девочки опускается золотая снежинка. «Каждая снежинка особенная. И твои желания тоже. Не сравнивай их с чужими. Пусть они будут именно твоими».",
- "tree","gift",[],{gift:"snowflake",giftTitle:"Снежинка желаний"});
-add(6,"Ночь новогоднего чуда",
- "Вы возвращаетесь на праздничную площадь. Девочка обнимает своего мишку и говорит: «Спасибо, что сегодня ты была со мной. Ты обнимала меня, играла, танцевала и слушала мои желания. Мне было очень хорошо рядом с тобой».",
- "square","text");
-add(6,"Что ты забираешь с собой?",
- "Вспомни ваше путешествие. Что тебе особенно запомнилось?",
- "room","single",[
- "Мне было тепло и спокойно",
- "Я вспомнила, как здорово играть",
- "Я почувствовала нежность к себе",
- "Я вспомнила о своих желаниях",
- "Я заметила, что мне не хватает внимания к себе",
- "Мне понравилось это приключение"
- ],{field:"Больше всего мне запомнилось…"});
-add(6,"Пять волшебных подарков",
- "Посмотри на подарки, которые ты собрала. Каждый из них — маленькое напоминание о том, что ты можешь взять с собой в новый год.",
- "room","collection");
-add(6,"Что ты хочешь сохранить?",
- "Выбери то, что хочется оставить в своей жизни и после этой сказки.",
- "room","multi",[
- "Заботу о себе",
- "Право отдыхать и радоваться",
- "Смелость мечтать",
- "Разрешение быть собой",
- "Внимание к своим желаниям",
- "Игривость и лёгкость",
- "Уверенность в себе"
- ],{field:"Я хочу сохранить в своей жизни…"});
-add(6,"Твоя карта-подсказка",
- "Перед тобой одна из двенадцати волшебных карт. Не ищи правильный ответ. Просто открой ту, которая сегодня тебя позвала.",
- "room","mac");
-add(6,"Письмо от маленькой девочки",
- "Устройся поудобнее. Это письмо — маленький подарок от твоей новой подруги.",
- "room","letter");
-add(6,"Твоё главное желание",
- "И прежде чем мы попрощаемся, загадай одно самое главное желание на новый год. Пусть оно будет твоим.",
- "square","finalwish");
-add(6,"Твоё новогоднее чудо!",
- "Ты прошла это путешествие. Пусть всё, что сегодня откликнулось в твоём сердце, останется с тобой.",
- "cover","final");
-
-const state = {
- name:"",
- girlName:"Малышка",
- answers:{},
- chosenCard:null,
- selections:{},
- fields:{}
-};
-let index=0;
-let cardOpened=false;
-
-function esc(s){
- return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function img(file,cls=""){
- return `<img class="${cls}" src="${esc(file)}" alt="" onerror="this.style.display='none'">`;
-}
-function save(){
- try{localStorage.setItem("novogodnee_chudo",JSON.stringify(state));}catch(e){}
-}
-function load(){
- try{
-  const old=localStorage.getItem("novogodnee_chudo");
-  if(old) Object.assign(state,JSON.parse(old));
- }catch(e){}
-}
-function answer(){return state.answers[index]||"";}
-function fieldValue(){return state.fields[index]||"";}
-function selections(){return state.selections[index]||[];}
-
+function start(){index=0;selected=[];render()}
 function render(){
- const s=S[index];
- const pct=Math.round(index/(S.length-1)*100);
- let html=`
- <div class="scene">
- <div class="scene-bg" style="background-image:url('${A[s.bg]||A.cover}')"></div>
- <div class="content">
- <div class="topline">Маленькое новогоднее чудо</div>
- <div class="progress"><span style="width:${pct}%"></span></div>
- <div class="small">${s.ch===0?"": "Глава "+s.ch+" · "+["","Встреча","Тепло","Радость","Движение","Желания","Чудо"][s.ch]}</div>
- <h1>${esc(s.title)}</h1>
- <p>${esc(s.text)}</p>
- `;
- if(s.type!=="start" && s.type!=="name" && s.type!=="final"){
-  html+=img(A.girl,"girl");
+ if(index<0){cover();return}
+ const s=steps[index];
+ let html=`<div class="chapter">${esc(s.chapter)}</div><h2>${esc(s.title)}</h2>`;
+ if(s.character)html+=`<img class="character" src="girl.PNG" alt="Маленькая девочка">`;
+ html+=`<div class="story">${esc(s.text).replace(/\n/g,"<br>")}</div>`;
+ if(s.type==="name")html+=`<input class="field" id="answerField" maxlength="35" placeholder="${esc(s.placeholder)}" value="${esc(data[s.key])}">`;
+ if(s.type==="textarea")html+=`<textarea class="field" id="answerField" placeholder="${esc(s.placeholder)}">${esc(data[s.key])}</textarea>`;
+ if(s.type==="multi"||s.type==="choice"){
+  html+=`<div class="options">`;
+  s.options.forEach(o=>{let on=selected.includes(o);html+=`<button class="option ${on?"selected":""}" onclick="toggle('${esc(o)}')">${on?"✓ ":""}${esc(o)}</button>`});
+  html+=`</div>`;
+  if(s.type==="choice")html+=`<input class="field" id="otherField" placeholder="Или напиши своё обещание..." value="${esc(promiseDraft)}">`;
  }
- html+='<div class="story">';
- html+=renderBody(s);
- html+='</div>';
- if(s.note) html+=`<p class="small">${esc(s.note)}</p>`;
- html+=`<button class="main-btn" onclick="next()">${index===S.length-1?"Начать сказку заново":"Дальше"}</button>`;
- if(index>0) html+=`<button class="secondary-btn" onclick="back()">← Назад</button>`;
- html+=`<div class="footer">История, созданная с теплом · Диана Шакирова</div>`;
- html+='</div></div>';
- document.getElementById("app").innerHTML=html;
-}
-
-function renderBody(s){
- switch(s.type){
- case "start":
-  return `${img(A.cover,"card-image")}
-  <p>История о встрече с маленькой девочкой внутри себя, о заботе, радости, желаниях и волшебстве.</p>
-  <p class="small">Устройся поудобнее. Это путешествие можно проходить в своём темпе.</p>`;
- case "name":
-  return `<label>Как тебя зовут?</label><input class="field" id="nameInput" placeholder="Твоё имя" value="${esc(state.name)}">`;
- case "girlname":
-  return `<label>Как ты хочешь назвать девочку?</label><input class="field" id="girlInput" placeholder="Имя девочки" value="${esc(state.girlName==="Малышка"?"":state.girlName)}"><p class="small">Можно оставить пустым — тогда она будет просто твоей маленькой девочкой.</p>`;
- case "text":
-  return `<p>${esc(state.name)}, ${esc(s.note||"")}</p><p class="small">Не спеши. Побудь немного в этой истории.</p>`;
- case "multi":
- case "single":
-  return `<div class="options">${s.options.map((o,i)=>{
-   const selected=s.type==="multi"?selections().includes(o):answer()===o;
-   return `<button class="choice ${selected?"selected":""}" onclick="pick(${i})">${selected?"✓ ":""}${esc(o)}</button>`;
-  }).join("")}</div>
-  ${s.field?`<textarea class="field" id="freeField" placeholder="${esc(s.field)}">${esc(fieldValue())}</textarea>`:""}
-  <p class="small">${s.type==="multi"?"Можно выбрать несколько вариантов.":"Выбери то, что откликается."}</p>`;
- case "gift":
-  return `${img(A[s.gift],"gift")}<h2>${esc(s.giftTitle)}</h2><p>Этот подарок остаётся с тобой как символ вашего путешествия.</p>`;
- case "dance":
-  return `<p>Если хочется, включи любимую музыку и сделай несколько движений прямо сейчас.</p><p>Можно танцевать сидя, стоя или просто двигать руками. Всё по твоему желанию.</p><p class="small">Нажми «Дальше», когда будешь готова.</p>`;
- case "wishes":
-  return `<div class="wishes">
-  <p><b>Как я хочу себя чувствовать:</b><br>${esc(state.answers["wish1"]||"Пока прислушиваюсь к себе")}</p>
-  <p><b>Что я хочу попробовать:</b><br>${esc(state.answers["wish2"]||"Пока прислушиваюсь к себе")}</p>
-  <p><b>Что я хочу впустить в жизнь:</b><br>${esc(state.answers["wish3"]||"Пока прислушиваюсь к себе")}</p>
-  </div>`;
- case "collection":
-  return `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
-  ${["star","heart","butterfly","spark","snowflake"].map(k=>img(A[k],"gift")).join("")}
-  </div><p>Звёздочка надежды · Сердечко тепла · Бабочка радости · Искорка жизни · Снежинка желаний</p>`;
- case "mac":
-  if(!state.chosenCard){
-   return `<p>Закрой глаза на мгновение. Выбери карту сердцем.</p><button class="main-btn" onclick="openCard()">Открыть мою карту ✨</button>`;
-  }
-  const c=macCards[state.chosenCard];
-  return `${img(c.img,"card-image")}<h2>${esc(c.title)}</h2><p>${esc(c.message)}</p><p><b>Вопрос для тебя:</b><br>${esc(c.question)}</p><p><b>Маленькое действие:</b><br>${esc(c.action)}</p>`;
- case "letter":
-  return `<div class="letter">${esc(makeLetter())}</div>`;
- case "finalwish":
-  return `<label>Моё главное желание на новый год…</label><textarea class="field" id="finalWish" placeholder="Я хочу…">${esc(state.fields.finalWish||"")}</textarea>`;
- case "final":
-  return `<div class="wishes">
-  <h2>Твоё новогоднее чудо, ${esc(state.name||"дорогая")}!</h2>
-  <p><b>Твои три желания</b></p>
-  <p>1. ${esc(state.answers.wish1||"")}</p>
-  <p>2. ${esc(state.answers.wish2||"")}</p>
-  <p>3. ${esc(state.answers.wish3||"")}</p>
-  <p><b>Твоё доброе обещание:</b><br>${esc(state.answers.promise||state.fields.promise||"")}</p>
-  <p><b>Твоё главное желание:</b><br>${esc(state.fields.finalWish||"")}</p>
-  ${state.chosenCard!==null?`<p><b>Твоя карта:</b> ${esc(macCards[state.chosenCard].title)}</p>${img(macCards[state.chosenCard].img,"card-image")}`:""}
-  <p class="small">5 ноября 2026</p>
-  </div>
-  <p>Пусть в новом году у тебя будет больше тепла, свободы, радости и моментов, когда ты выбираешь себя.</p>
-  <button class="secondary-btn" onclick="window.print()">Сохранить / распечатать</button>`;
+ if(s.type==="gift")html+=`<canvas class="gift-canvas" id="giftCanvas"></canvas><div class="small-note">${esc(s.giftName)} теперь с тобой</div>`;
+ if(s.type==="cards"){
+  html+=`<div class="deck">`;
+  cards.forEach(([src,label])=>{let on=data.macCard===src;html+=`<button class="card-choice ${on?"selected":""}" onclick="choose('${src}')"><img src="${src}" alt="${esc(label)}"><span>${on?"✓ ":""}${esc(label)}</span></button>`});
+  html+=`</div>`;
  }
- return "";
+ html+=`<div class="actions"><button class="primary" onclick="next()">${esc(s.button||(s.type==="cards"?"Открыть подсказку":"Продолжить"))}</button></div>`;
+ app.innerHTML=`<section class="scene" style="background-image:url('${bg[s.bg]}')"><div class="progress-wrap"><div class="progress" style="width="${Math.round((index+1)/steps.length*100)}%"></div></div><main class="panel">${html}</main></section>`;
+ if(s.type==="gift")greenKey(s.gift);
 }
-
-function pick(i){
- const s=S[index],o=s.options[i];
- if(s.type==="multi"){
-  let a=selections();
-  a=a.includes(o)?a.filter(x=>x!==o):[...a,o];
-  state.selections[index]=a;
+function toggle(option){
+ const s=steps[index];
+ if(s.type==="choice"){
+  const field=document.getElementById("otherField");
+  promiseDraft=field?field.value:"";
+  selected=selected.includes(option)?[]:[option];
  }else{
-  state.answers[index]=o;
+  selected=selected.includes(option)?selected.filter(x=>x!==option):[...selected,option];
  }
- save();render();
+ render();
 }
-function storeField(){
- const s=S[index];
- const el=document.getElementById("freeField");
- if(el) state.fields[index]=el.value;
- if(s.type==="name"){
-  const n=document.getElementById("nameInput");
-  if(n)state.name=n.value.trim();
- }
- if(s.type==="girlname"){
-  const n=document.getElementById("girlInput");
-  if(n)state.girlName=n.value.trim()||"Малышка";
- }
- if(s.type==="finalwish"){
-  const n=document.getElementById("finalWish");
-  if(n)state.fields.finalWish=n.value.trim();
- }
- if(s.saveAs){
-  if(s.type==="multi")state.answers[s.saveAs]=(state.selections[index]||[]).join(", ");
-  else state.answers[s.saveAs]=state.answers[index]||state.fields[index]||"";
- }
- save();
-}
+function choose(src){data.macCard=src;render()}
 function next(){
- const s=S[index];
- storeField();
- if(s.type==="name"&&!state.name){
-  alert("Напиши своё имя, чтобы сказка стала личной.");
-  return;
+ const s=steps[index];
+ if(s.type==="name"){
+  const v=document.getElementById("answerField").value.trim();
+  if(!v){alert("Напиши, пожалуйста, своё имя.");return}
+  data[s.key]=v;
  }
- if(s.type==="mac"&&!state.chosenCard){
-  alert("Сначала открой свою карту.");
-  return;
+ if(s.type==="textarea"){
+  data[s.key]=document.getElementById("answerField").value.trim();
  }
- if(index<S.length-1){
+ if(s.type==="multi"){
+  if(!selected.length){alert("Выбери хотя бы один вариант.");return}
+  data[s.key]=[...selected];
+ }
+ if(s.type==="choice"){
+  const field=document.getElementById("otherField");
+  const own=field?field.value.trim():"";
+  data.promise=own||selected[0]||"";
+  if(!data.promise){alert("Выбери обещание или напиши своё.");return}
+ }
+ if(s.type==="cards"&&!data.macCard){alert("Выбери одну карточку.");return}
+ if(index<steps.length-1){
   index++;
+  const nextStep=steps[index];
+  selected=nextStep.type==="multi"?(data[nextStep.key]||[]):nextStep.type==="choice"?(data.promise?[data.promise]:[]):[];
+  promiseDraft="";
   render();
- }else{
-  index=0;
-  state.name="";
-  state.girlName="Малышка";
-  state.answers={};
-  state.selections={};
-  state.fields={};
-  state.chosenCard=null;
-  save();render();
- }
+ }else renderFinal();
 }
-function back(){
- storeField();
- if(index>0){index--;render();}
+function greenKey(filename){
+ const canvas=document.getElementById("giftCanvas");
+ if(!canvas)return;
+ const ctx=canvas.getContext("2d",{willReadFrequently:true});
+ const img=new Image();
+ img.onload=()=>{
+  const scale=Math.min(1,500/img.width);
+  canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);
+  ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  try{
+   const im=ctx.getImageData(0,0,canvas.width,canvas.height),p=im.data,w=canvas.width,h=canvas.height;
+   const seen=new Uint8Array(w*h),q=[];
+   function green(i){let k=i*4,r=p[k],g=p[k+1],b=p[k+2];return g>65&&g>r*1.16&&g>b*1.12&&g-r>24}
+   function add(x,y){if(x<0||y<0||x>=w||y>=h)return;let i=y*w+x;if(seen[i]||!green(i))return;seen[i]=1;q.push(i)}
+   for(let x=0;x<w;x++){add(x,0);add(x,h-1)}
+   for(let y=0;y<h;y++){add(0,y);add(w-1,y)}
+   for(let n=0;n<q.length;n++){let i=q[n];p[i*4+3]=0;let x=i%w,y=(i/w)|0;add(x+1,y);add(x-1,y);add(x,y+1);add(x,y-1)}
+   ctx.putImageData(im,0,0);
+  }catch(e){console.log("Обработка фона недоступна",e)}
+ };
+ img.onerror=()=>console.log("Не найден файл:",filename);
+ img.src=filename;
 }
-function openCard(){
- state.chosenCard=Math.floor(Math.random()*macCards.length);
- save();render();
+function renderFinal(){
+ const name=data.girlName||"моя дорогая",c=cards.find(x=>x[0]===data.macCard);
+ const date=new Date().toLocaleDateString("ru-RU",{day:"numeric",month:"long",year:"numeric"});
+ const letter=`Дорогая ${name}!
+
+Сегодня ты встретилась с маленькой девочкой внутри себя. Ты услышала её желания, сказала ей важные слова и подарила обещание заботиться о себе.
+
+Тебе важно:
+${data.needs.join(", ")||"быть услышанной и замеченной"}.
+
+Ты хочешь вернуть в свою жизнь:
+${data.joys.join(", ")||"свои маленькие радости"}.
+
+Твоё желание:
+${data.wish||"Пусть оно обязательно найдёт дорогу к тебе."}
+
+Твой первый шаг:
+${data.firstStep||"Сделать маленький шаг навстречу себе."}
+
+Твоё обещание себе:
+${data.promise||"Быть к себе бережнее."}
+
+Твоя волшебная карта: ${c?c[1]:"Новая история"}.
+${data.macReflection||""}
+
+И помни: тебе не нужно ждать особенного дня, чтобы начать относиться к себе с любовью. Маленькое чудо может начинаться сегодня.
+
+С теплом,
+ты сама ❤️
+
+${date}`;
+ app.innerHTML=`<section class="scene" style="background-image:url('christmas_square.JPG')"><div class="progress-wrap"><div class="progress" style="width:100%"></div></div><main class="panel"><div class="chapter">Твоё новогоднее чудо</div><h2>Твоя история начинается с тебя</h2><div class="story">Ты прошла сказочное путешествие, встретилась с собой и собрала маленькие символы заботы, радости и надежды.</div><div class="final-letter">${esc(letter)}</div><div class="actions"><button class="primary" onclick="window.print()">Сохранить письмо</button><button class="secondary" onclick="restart()">Пройти ещё раз</button></div><div class="small-note">«Маленькое новогоднее чудо» · Диана Шакирова</div></main></section>`;
 }
-function makeLetter(){
- const wishes=[
-  state.answers.wish1||"слышать себя",
-  state.answers.wish2||"пробовать новое",
-  state.answers.wish3||"впускать радость"
- ];
- const promise=state.answers.promise||state.fields.promise||"быть внимательнее к себе";
- return `Дорогая ${state.name||"моя хорошая"}!
-
-Спасибо, что сегодня ты пришла ко мне. Я так рада, что мы познакомились!
-
-Мне понравилось, как ты заботилась обо мне, играла, танцевала и слушала мои желания. Знаешь, я хочу, чтобы ты тоже помнила обо мне — о той маленькой девочке, которая живёт внутри тебя.
-
-Тебе можно мечтать.
-Тебе можно ошибаться.
-Тебе можно отдыхать.
-Тебе можно хотеть большего.
-Тебе можно радоваться просто так.
-
-Я запомнила твои желания:
-${wishes[0]};
-${wishes[1]};
-${wishes[2]}.
-
-И я услышала твоё доброе обещание: ${promise}.
-
-Пожалуйста, не забывай о нас. Давай иногда играть, смеяться, мечтать и замечать маленькие чудеса.
-
-Я верю, что впереди нас ждёт много хорошего.
-
-С любовью,
-твоя маленькая девочка ${state.girlName||""} ❤️`;
+function restart(){
+ index=-1;selected=[];promiseDraft="";
+ data={girlName:"",needs:[],kindWords:[],message:"",promise:"",joys:[],smallJoy:"",wish:"",firstStep:"",macCard:"",macReflection:""};
+ cover();
 }
-
-load();
-render();
+cover();
 </script>
 </body>
 </html>
-
