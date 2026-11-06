@@ -1,1 +1,8 @@
+name = "fairytale-access"
+main = "worker/index.js"
+compatibility_date = "2026-11-06"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "fairytale-users"
+database_id = "e9c8ff19-a34f-4c7d-b8b4-10b6fa924ea4"
