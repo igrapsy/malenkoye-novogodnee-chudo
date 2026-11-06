@@ -988,8 +988,64 @@ document.addEventListener('click', function(event) {
   if (actions[action]) actions[action]();
 });
 
-/* Запуск */
-cover();
+const ACCESS_URL = 'https://fairytale-access.happy-diana.workers.dev';
+let telegramInitData = '';
+
+function accessMessage(title, message) {
+  setBackground('village.JPG');
+  panel(`
+    <div class="eyebrow">Маленькое новогоднее чудо</div>
+    <h2>${title}</h2>
+    <p class="center">${message}</p>
+  `, 'cover-panel');
+}
+
+const originalFinalLetter = actions.finalLetter;
+actions.finalLetter = function() {
+  originalFinalLetter();
+  fetch(ACCESS_URL + '/complete', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({initData: telegramInitData})
+  }).catch(console.error);
+};
+
+async function startApp() {
+  const tg = window.Telegram && window.Telegram.WebApp;
+
+  if (!tg || !tg.initData) {
+    accessMessage('Открой сказку в Telegram', 'Вернись в Telegram и запусти сказку через бота.');
+    return;
+  }
+
+  telegramInitData = tg.initData;
+  tg.ready();
+  tg.expand();
+
+  try {
+    const response = await fetch(ACCESS_URL + '/check', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({initData: telegramInitData})
+    });
+    const result = await response.json();
+
+    if (result.completed) {
+      accessMessage('Это чудо уже состоялось', 'Ты уже прошла эту сказку.');
+    } else if (result.access) {
+      cover();
+    } else {
+      accessMessage('Доступ пока не открыт', 'Если ты оплатила участие, напиши Диане.');
+    }
+  } catch (e) {
+    accessMessage('Ошибка проверки доступа', 'Попробуй открыть сказку ещё раз через Telegram.');
+  }
+}
+
+const telegramScript = document.createElement('script');
+telegramScript.src = 'https://telegram.org/js/telegram-web-app.js';
+telegramScript.onload = startApp;
+document.head.appendChild(telegramScript);
 </script>
 </body>
 </html>
